@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#D13A2D</color>
+
+    <color name="colorPrimaryDark">#AA4344</color>
+
+    <color name="colorAccent">#AA4344</color>
+
+    <color name="white">#FFFFFF</color>
+
+    <color name="orange">#F8931D</color>
+
+    <color name="black">#000000</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="trantracent">#22000000</color>
+
+    <color name="trantracent_wode">#55000000</color>
+
+    <color name="deep_transparent">#bb000000</color>
+
+    <color name="grey_text_color_normal">#8A8A8A</color>
+
+    <color name="grey_line_bg">#E4E4E4</color>
+
+    <color name="original_border_color">#F18459</color>
+
+    <color name="grey_normal_bg">#F4F4F4</color>
+
+    <color name="app_line_colors">#cccccc</color>
+
+    <color name="app_item_press_colors">#b3b3b3</color>
+
+    <color name="bottom_text_normal_colors">#6B6B6B</color>
+
+
+
+    <color name="btn_complete_normal_colors">#CF2A27</color>
+
+    <color name="btn_complete_press_colors">#BE0F0F</color>
+
+
+
+    <color name="gray_1">#7e7d7d</color>
+
+    <color name="gray_2">#a1a3a6</color>
+
+    <color name="gray_4">#DDDDDD</color>
+
+    <color name="gray_5">#4A4A4A</color>
+
+    <color name="gray_3">#f3f3f3</color>
+
+    <color name="gray_dark">#FF404040</color>
+
+    <color name="font_gray">#bfbfbf</color>
+
+
+
+    <color name="description_gray">#666666</color>
+
+    <color name="search_corner_bg">#60BBBABA</color>
+
+    <!-- 半透明黑色-->
+
+    <color name="translucent_black">#99323232</color>
 </resources>
