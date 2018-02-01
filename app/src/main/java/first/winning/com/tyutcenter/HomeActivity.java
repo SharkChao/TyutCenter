@@ -10,14 +10,14 @@ import com.avos.avoscloud.SaveCallback;
 
 import first.winning.com.tyutcenter.annotation.ContentView;
 import first.winning.com.tyutcenter.base.BaseActivity;
-import first.winning.com.tyutcenter.databinding.ActivityMainBinding;
+import first.winning.com.tyutcenter.databinding.ActivityHomeBinding;
 
-@ContentView(R.layout.activity_main)
-public class MainActivity extends BaseActivity {
+@ContentView(R.layout.activity_home)
+public class HomeActivity extends BaseActivity {
 
     @Override
     public void initData(ViewDataBinding viewDataBinding) {
-        ActivityMainBinding binding = (ActivityMainBinding) viewDataBinding;
+        ActivityHomeBinding binding = (ActivityHomeBinding) viewDataBinding;
 
     }
 }
