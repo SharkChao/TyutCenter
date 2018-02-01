@@ -17,8 +17,12 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViewDataBinding viewDataBinding = DataBindingUtil.setContentView(this, getContentView());
+        initView();
         initData(viewDataBinding);
+        initEvent();
     }
+
+
     //获取注解的值
     public int getContentView(){
         Class<? extends BaseActivity> aClass = this.getClass();
@@ -29,6 +33,9 @@ public abstract class BaseActivity extends AppCompatActivity{
         }
         return 0;
     }
+
+    protected abstract void initEvent();
+    public abstract void initView();
     public abstract void initData(ViewDataBinding viewDataBinding);
 }
 

@@ -11,8 +11,19 @@ import first.winning.com.tyutcenter.base.BaseActivity;
  */
 @ContentView(R.layout.activity_splash)
 public class SplashActivity extends BaseActivity{
+
+    @Override
+    public void initView() {
+
+    }
+
     @Override
     public void initData(ViewDataBinding viewDataBinding) {
+
+    }
+
+    @Override
+    protected void initEvent() {
 
     }
 }
