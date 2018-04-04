@@ -34,7 +34,7 @@ public class NewsFragment extends BaseFragment{
 
     @Override
     protected void initData() {
-
+//        mTabLayout.addTab(new TabLayout.Tab(),0);
     }
 
     @Override
