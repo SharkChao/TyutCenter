@@ -6,21 +6,18 @@
     <dimen name="font_larger">22sp</dimen>
     <dimen name="font_large">18sp</dimen>
     <dimen name="font_normal">15sp</dimen>
-    <dimen name="font_smaller">14sp</dimen>
-    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_small">14sp</dimen>
+    <dimen name="font_smaller">12sp</dimen>
 
     <!-- typical spacing between two views -->
-    <dimen name="spacing_huge">40dp</dimen>
-    <dimen name="spacing_larger">34dp</dimen>
-    <dimen name="spacing_large">24dp</dimen>
-    <dimen name="spacing_biger">20dp</dimen>
-    <dimen name="spacing_big">18dp</dimen>
-    <dimen name="spacing_normal">14dp</dimen>
-    <dimen name="spacing_small">12dp</dimen>
-    <dimen name="spacing_smaller">10dp</dimen>
-    <dimen name="spacing_smallest">8dp</dimen>
-    <dimen name="spacing_tiny">6dp</dimen>
-    <dimen name="spacing_tinyer">4dp</dimen>
-    <dimen name="spacing_tinyest">2dp</dimen>
-    <dimen name="line">0.5dp</dimen>
+    <dimen name="spacing_40">40dp</dimen>
+    <dimen name="spacing_35">35dp</dimen>
+    <dimen name="spacing_30">30dp</dimen>
+    <dimen name="spacing_25">25dp</dimen>
+    <dimen name="spacing_20">20dp</dimen>
+    <dimen name="spacing_15">15dp</dimen>
+    <dimen name="spacing_10">10dp</dimen>
+    <dimen name="spacing_5">5dp</dimen>
+
+    <dimen name="spacing_line">0.5dp</dimen>
 </resources>

@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">TyutCenter</string>
+    <string name="app_name">lartemis-api</string>
+    <!-- 是否开启IOC -->
+    <string name="config_isstartIOC">false</string>
+
+    <!-- 吐司提示的文本 -->
+    <string name="toast_error_network">当前网络环境较差，请稍后重试!</string>
+    <string name="toast_error_not_have_network">当前没有网络，请检测设备后重试!</string>
+    <string name="toast_error_server">抱歉！服务器出错了!</string>
+    <string name="toast_error_unknown">抱歉！系统出现未知错误!</string>
+    <!-- 设置界面一些信息 -->
+    <string name="about_version">Android + 版本号:</string>
+    <string name="about_copyright">\nCopyright ©2018卫宁健康科技集团股份有限公司\nWinning Health Technology Group Co.,Ltd.</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
