@@ -57,7 +57,7 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
                 .setFirstSelectedPosition(0)//设置默认选择item
                 .initialise();//初始化
 
-        getCallbacks().login();
+//        getCallbacks().login();
     }
 
     @Override

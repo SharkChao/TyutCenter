@@ -54,7 +54,6 @@ public abstract class BaseActivity<UC> extends AppCompatActivity implements Base
         super.onCreate(savedInstanceState);
         currentActivity = this;
         getSupportActionBar().hide();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setToolbar();
         View contentView = findViewById(R.id.content);
         ViewDataBinding viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(this),getContentView(),(ViewGroup) contentView,true);

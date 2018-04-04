@@ -1,16 +1,26 @@
 package first.winning.com.tyutcenter.presenter;
 
-import java.util.ArrayList;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
 import java.util.List;
 
+import first.winning.com.tyutcenter.base.BaseActivity;
 import first.winning.com.tyutcenter.base.BasePresenter;
-import first.winning.com.tyutcenter.model.HttpResult;
+import first.winning.com.tyutcenter.model.News;
+import first.winning.com.tyutcenter.model.NewsCount;
 import first.winning.com.tyutcenter.model.ReSearchInfo;
+import first.winning.com.tyutcenter.model.ResponseError;
 import first.winning.com.tyutcenter.network.ApiService;
-import first.winning.com.tyutcenter.network.HttpResultFunc;
-import io.reactivex.Observable;
+import first.winning.com.tyutcenter.network.RequestCallBack;
+import first.winning.com.tyutcenter.network.map.HttpResultFunc;
+import first.winning.com.tyutcenter.network.map.HttpResultFuncNews;
+import first.winning.com.tyutcenter.network.map.HttpResultFuncNewsCount;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -34,6 +44,8 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     //获取数据之后回调
     public interface MainUiCallback{
         void login();
+        void getNews1(String url,boolean isrefresh);
+        void  getNewsCount(String url);
     }
 
     @Override
@@ -53,6 +65,49 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
                                 });
 
             }
+
+            @Override
+            public void getNews1(String url, final boolean isRefresh) {
+                if (ui instanceof  NewsUi){
+//                    BaseActivity.currentActivity.showProgressDialog();
+                    mApiService.getNews1(url)
+                            .map(new HttpResultFuncNews())
+                            .compose(MainPresenter.this.<List<News>>applySchedulers())
+                            .subscribe(new RequestCallBack<List<News>>() {
+                                @Override
+                                public void onResponse(List<News> response) {
+//                                    BaseActivity.currentActivity.hideProgressDialog();
+                                    ((NewsUi) ui).getNewsCallback(response,isRefresh);
+                                }
+                                @Override
+                                public void onFailure(ResponseError error) {
+//                                    BaseActivity.currentActivity.hideProgressDialog();
+                                    ui.onResponseError(error);
+                                }
+                            });
+
+                }
+            }
+
+            @Override
+            public void getNewsCount(String url) {
+                if (ui instanceof  NewsUi)
+                mApiService.getNewsCount(url)
+                        .map(new HttpResultFuncNewsCount())
+                        .compose(MainPresenter.this.<NewsCount>applySchedulers())
+                        .subscribe(new RequestCallBack<NewsCount>() {
+                            @Override
+                            public void onResponse(NewsCount response) {
+                                ((NewsUi) ui).getNewsCountCallback(response);
+                            }
+
+                            @Override
+                            public void onFailure(ResponseError error) {
+                                BaseActivity.currentActivity.hideProgressDialog();
+                                ui.onResponseError(error);
+                            }
+                        });
+            }
         };
     }
 
@@ -63,5 +118,8 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     public interface MainHomeUi extends MainUi{
         void LoginCallback(List<ReSearchInfo>reSearchInfos);
     }
-
+    public interface  NewsUi extends MainUi{
+        void getNewsCallback(List<News>newsList,boolean string);
+        void getNewsCountCallback(NewsCount newsCount);
+    }
 }

@@ -1,4 +1,4 @@
-package first.winning.com.tyutcenter.network;
+package first.winning.com.tyutcenter.network.map;
 
 
 import first.winning.com.tyutcenter.constants.Constants;
@@ -8,7 +8,7 @@ import io.reactivex.functions.Function;
 
 
 /**
- * 处理服务器返回结果
+ * 处理服务器返回结果  通用返回json
  * Created by yuzhijun on 2017/6/27.
  */
 public class HttpResultFunc<T> implements Function<HttpResult<T>, T> {

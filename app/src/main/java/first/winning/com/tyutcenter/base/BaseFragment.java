@@ -58,6 +58,7 @@ public abstract class BaseFragment<UC> extends Fragment implements BasePresenter
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((BasePresenter)mMainController).attachUi(this);
         setToolbar(view,savedInstanceState);
         handleArguments(getArguments());
         initTitle();
@@ -66,11 +67,11 @@ public abstract class BaseFragment<UC> extends Fragment implements BasePresenter
         initEvent();
     }
 
+    protected abstract void handleArguments(Bundle arguments);
     protected abstract void initTitle();
     protected abstract void initViews(ViewDataBinding viewDataBinding,Bundle savedInstanceState);
     protected abstract void initData();
     protected abstract void initEvent();
-    protected abstract void handleArguments(Bundle arguments);
 
     protected int getLayoutResId() {
         for (Class c = getClass(); c != Fragment.class; c = c.getSuperclass()) {

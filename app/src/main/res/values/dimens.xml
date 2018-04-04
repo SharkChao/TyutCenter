@@ -16,7 +16,9 @@
     <dimen name="spacing_25">25dp</dimen>
     <dimen name="spacing_20">20dp</dimen>
     <dimen name="spacing_15">15dp</dimen>
+    <dimen name="spacing_12">12dp</dimen>
     <dimen name="spacing_10">10dp</dimen>
+    <dimen name="spacing_4">4dp</dimen>
     <dimen name="spacing_5">5dp</dimen>
 
     <dimen name="spacing_line">0.5dp</dimen>

@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.avos.avoscloud.AVOSCloud;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 
 import javax.inject.Inject;
@@ -40,6 +41,8 @@ public class MyLeanCloudApp extends Application{
         AppComponent build = DaggerAppComponent.builder().apiServiceModule(new ApiServiceModule())
                 .build();
         build.inject(this);
+        Fresco.initialize(this);
+
 
     }
 
