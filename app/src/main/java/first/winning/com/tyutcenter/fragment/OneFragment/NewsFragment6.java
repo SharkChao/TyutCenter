@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ import first.winning.com.tyutcenter.model.News;
 import first.winning.com.tyutcenter.model.NewsCount;
 import first.winning.com.tyutcenter.model.ResponseError;
 import first.winning.com.tyutcenter.presenter.MainPresenter;
+import first.winning.com.tyutcenter.utils.CommonUtil;
 import first.winning.com.tyutcenter.views.RecycleViewDivider;
 
 /**
@@ -42,6 +45,7 @@ public class NewsFragment6 extends BaseFragment<MainPresenter.MainUiCallback> im
     private int mCurrent;
     private int mPage;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private Gson mGson;
 
     @Override
     protected void initTitle() {
@@ -62,7 +66,7 @@ public class NewsFragment6 extends BaseFragment<MainPresenter.MainUiCallback> im
 
     @Override
     protected void initData() {
-
+        mGson = new Gson();
     }
 
     @Override
@@ -135,7 +139,7 @@ public class NewsFragment6 extends BaseFragment<MainPresenter.MainUiCallback> im
             mAdapter.setNewData(newsList);
             Toast.makeText(getActivity(), "刷新成功!", Toast.LENGTH_SHORT).show();
         }
-
+        CommonUtil.setShardPString("news6", mGson.toJson(mAdapter.getData()));
     }
 
     @Override
@@ -143,6 +147,7 @@ public class NewsFragment6 extends BaseFragment<MainPresenter.MainUiCallback> im
         if (newsCount != null){
             mAllCount = newsCount.getCount();
             mPage = newsCount.getPage();
+            CommonUtil.setShardPString("news6", mGson.toJson(mAdapter.getData()));
         }
     }
 
@@ -162,7 +167,20 @@ public class NewsFragment6 extends BaseFragment<MainPresenter.MainUiCallback> im
 
     @Override
     protected void lazyLoad() {
-        getCallbacks().getNewsCount("mtlg");
-        getCallbacks().getNews1(Constants.base_url+"/"+url+".htm",false);
+        String news1 = CommonUtil.getShardPStringByKey("news6");
+        String news1_count = CommonUtil.getShardPStringByKey("news6_count");
+
+        if (CommonUtil.isStrEmpty(news1)){
+            getCallbacks().getNews1(Constants.base_url+"/"+url+".htm",false);
+        }else {
+            List<News> newsList = mGson.fromJson(news1, new TypeToken<List<News>>() {}.getType());
+            getNewsCallback(newsList,false);
+        }
+        if (CommonUtil.isStrEmpty(news1_count)){
+            getCallbacks().getNewsCount("mtlg");
+        }else {
+            NewsCount newsCount = mGson.fromJson(news1_count, NewsCount.class);
+            getNewsCountCallback(newsCount);
+        }
     }
 }
