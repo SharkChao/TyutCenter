@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">lartemis-api</string>
+    <string name="app_name">太理助手</string>
     <!-- 是否开启IOC -->
     <string name="config_isstartIOC">false</string>
 

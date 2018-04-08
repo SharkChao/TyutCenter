@@ -10,9 +10,10 @@ import first.winning.com.tyutcenter.presenter.MainPresenter;
 
 /**
  * Created by Admin on 2018/2/1.
+ * 交流fragment
  */
 @ContentView(R.layout.fragment_mine)
-public class MineFragment extends BaseFragment<MainPresenter.MainUiCallback> implements MainPresenter.MainUi{
+public class ConnectFragment extends BaseFragment<MainPresenter.MainUiCallback> implements MainPresenter.MainUi{
 
     @Override
     protected void initTitle() {

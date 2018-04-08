@@ -7,32 +7,31 @@ package first.winning.com.tyutcenter.model;
  * Created by yuzhijun on 2016/3/29.
  */
 public class HttpResult<T> {
-    private int ErrorCode;
-    private String ErrorMessage;
-    private T Data;
+    private int code;
+    private String message;
+    private T data;
 
-    public int getErrorCode() {
-        return ErrorCode;
+    public int getCode() {
+        return code;
     }
 
-    public void setErrorCode(int errorCode) {
-        ErrorCode = errorCode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getErrorMessage() {
-        return ErrorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        ErrorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
-
 
     public T getData() {
-        return Data;
+        return data;
     }
 
     public void setData(T data) {
-        Data = data;
+        this.data = data;
     }
 }

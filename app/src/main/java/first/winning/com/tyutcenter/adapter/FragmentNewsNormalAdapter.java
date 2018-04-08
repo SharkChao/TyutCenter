@@ -15,8 +15,8 @@ import first.winning.com.tyutcenter.utils.CommonUtil;
  * Created by Admin on 2018/2/2.
  */
 
-public class FragmentNews1Adapter extends BaseQuickAdapter<News, BaseViewHolder> {
-    public FragmentNews1Adapter(int layoutResId) {
+public class FragmentNewsNormalAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
+    public FragmentNewsNormalAdapter(int layoutResId) {
         super(layoutResId);
     }
 

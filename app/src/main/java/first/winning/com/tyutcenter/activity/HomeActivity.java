@@ -16,6 +16,9 @@ import first.winning.com.tyutcenter.R;
 import first.winning.com.tyutcenter.annotation.ContentView;
 import first.winning.com.tyutcenter.base.BaseActivity;
 import first.winning.com.tyutcenter.databinding.ActivityHomeBinding;
+import first.winning.com.tyutcenter.fragment.ConnectFragment;
+import first.winning.com.tyutcenter.fragment.JWFragment;
+import first.winning.com.tyutcenter.fragment.MineFragment;
 import first.winning.com.tyutcenter.fragment.NewsFragment;
 import first.winning.com.tyutcenter.model.ReSearchInfo;
 import first.winning.com.tyutcenter.presenter.MainPresenter;
@@ -28,6 +31,9 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
     private ActivityHomeBinding mBinding;
     private FrameLayout mFrameLayout;
     private NewsFragment mNewsFragment;
+    private JWFragment mJWFragment;
+    private ConnectFragment mConnectFragment;
+    private MineFragment mMineFragment;
 
     @Override
     public void initTitle() {
@@ -48,16 +54,28 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
         if (mNewsFragment == null){
             mNewsFragment = new NewsFragment();
         }
-        mFragmentManager.beginTransaction().replace(R.id.frameLayout,mNewsFragment).commit();
+        if (mNewsFragment == null){
+            mNewsFragment = new NewsFragment();
+        }
+        if (mJWFragment == null){
+            mJWFragment = new JWFragment();
+        }
+        if (mConnectFragment == null){
+            mConnectFragment = new ConnectFragment();
+        }
+        if (mMineFragment == null){
+            mMineFragment = new MineFragment();
+        }
+        mFragmentManager.beginTransaction().add(R.id.frameLayout,mNewsFragment).add(R.id.frameLayout,mJWFragment).add(R.id.frameLayout,mConnectFragment).add(R.id.frameLayout,mMineFragment).commit();
+        mFragmentManager.beginTransaction().show(mNewsFragment).hide(mJWFragment).hide(mConnectFragment).hide(mMineFragment).commit();
         mBinding.bottomBar
                 .addItem(new BottomNavigationItem(R.mipmap.iv_news, "新闻").setActiveColorResource(R.color.colorPrimary))
-                .addItem(new BottomNavigationItem(R.mipmap.iv_jiaowu, "教务").setActiveColorResource(R.color.colorBlue))
-                .addItem(new BottomNavigationItem(R.mipmap.iv_group, "交流").setActiveColorResource(R.color.colorGreen))
-                .addItem(new BottomNavigationItem(R.mipmap.iv_mine, "我的"))//依次添加item,分别icon和名称
+                .addItem(new BottomNavigationItem(R.mipmap.iv_jiaowu, "教务").setActiveColorResource(R.color.colorPrimary))
+                .addItem(new BottomNavigationItem(R.mipmap.iv_group, "交流").setActiveColorResource(R.color.colorPrimary))
+                .addItem(new BottomNavigationItem(R.mipmap.iv_mine, "我的").setActiveColorResource(R.color.colorPrimary))//依次添加item,分别icon和名称
                 .setFirstSelectedPosition(0)//设置默认选择item
                 .initialise();//初始化
 
-//        getCallbacks().login();
     }
 
     @Override
@@ -66,16 +84,13 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
             @Override
             public void onTabSelected(int position) {
                 if (position == 0){
-                    if (mNewsFragment == null){
-                        mNewsFragment = new NewsFragment();
-                    }
-                    mFragmentManager.beginTransaction().replace(R.id.frameLayout,mNewsFragment).commit();
+                    mFragmentManager.beginTransaction().show(mNewsFragment).hide(mJWFragment).hide(mConnectFragment).hide(mMineFragment).commit();
                 }else if (position == 1){
-
+                    mFragmentManager.beginTransaction().show(mJWFragment).hide(mNewsFragment).hide(mConnectFragment).hide(mMineFragment).commit();
                 }else if (position == 2){
-
+                    mFragmentManager.beginTransaction().show(mConnectFragment).hide(mJWFragment).hide(mNewsFragment).hide(mMineFragment).commit();
                 }else if (position == 3){
-
+                    mFragmentManager.beginTransaction().show(mMineFragment).hide(mJWFragment).hide(mNewsFragment).hide(mConnectFragment).commit();
                 }
             }
 
@@ -89,6 +104,7 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
 
             }
         });
+
     }
 
     @Override

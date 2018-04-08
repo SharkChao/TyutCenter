@@ -3,8 +3,6 @@ package first.winning.com.tyutcenter.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.view.View;
 
 import first.winning.com.tyutcenter.base.BaseFragment;
 import first.winning.com.tyutcenter.fragment.OneFragment.NewsFragment1;
@@ -13,6 +11,7 @@ import first.winning.com.tyutcenter.fragment.OneFragment.NewsFragment3;
 import first.winning.com.tyutcenter.fragment.OneFragment.NewsFragment4;
 import first.winning.com.tyutcenter.fragment.OneFragment.NewsFragment5;
 import first.winning.com.tyutcenter.fragment.OneFragment.NewsFragment6;
+import first.winning.com.tyutcenter.fragment.OneFragment.NewsFragmentCPU;
 
 /**
  * Created by Admin on 2018/4/4.
@@ -53,6 +52,10 @@ public class TabPagerAdapter extends FragmentPagerAdapter{
             case 5:
                 NewsFragment6 newsFragment6 =  NewsFragment6.getInstance();
                 baseFragment = newsFragment6;
+                break;
+            case 6:
+                NewsFragmentCPU newsFragment7 =  NewsFragmentCPU.getInstance();
+                baseFragment = newsFragment7;
                 break;
         }
         return baseFragment;

@@ -3,4 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="待定"
+        android:textSize="@dimen/font_larger"
+        android:textColor="@color/colorPrimary"/>
 </android.support.constraint.ConstraintLayout>

@@ -15,8 +15,8 @@ public class HttpResultFunc<T> implements Function<HttpResult<T>, T> {
 
     @Override
     public T apply(HttpResult<T> tHttpResult) throws Exception {
-        if (tHttpResult.getErrorCode() != 1){
-            throw new ResponseError(Constants.HttpCode.HTTP_SERVER_ERROR, tHttpResult.getErrorMessage());
+        if (tHttpResult.getCode() != 1){
+            throw new ResponseError(Constants.HttpCode.HTTP_SERVER_ERROR, tHttpResult.getMessage());
         }
         return tHttpResult.getData();
     }

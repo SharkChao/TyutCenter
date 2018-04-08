@@ -1,12 +1,10 @@
 package first.winning.com.tyutcenter.presenter;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import java.util.List;
 
 import first.winning.com.tyutcenter.base.BaseActivity;
 import first.winning.com.tyutcenter.base.BasePresenter;
+import first.winning.com.tyutcenter.model.test.CpuBean;
 import first.winning.com.tyutcenter.model.News;
 import first.winning.com.tyutcenter.model.NewsCount;
 import first.winning.com.tyutcenter.model.ReSearchInfo;
@@ -16,11 +14,10 @@ import first.winning.com.tyutcenter.network.RequestCallBack;
 import first.winning.com.tyutcenter.network.map.HttpResultFunc;
 import first.winning.com.tyutcenter.network.map.HttpResultFuncNews;
 import first.winning.com.tyutcenter.network.map.HttpResultFuncNewsCount;
-import io.reactivex.Observer;
+import first.winning.com.tyutcenter.network.map.HttpResultFuncNewsCountTZGG;
+import first.winning.com.tyutcenter.network.map.HttpResultFuncNewsTZGG;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -46,6 +43,9 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
         void login();
         void getNews1(String url,boolean isrefresh);
         void  getNewsCount(String url);
+        void getTestData();
+        void getNewsTZGG(String url,boolean isrefresh);
+        void  getNewsCountTZGG(String url);
     }
 
     @Override
@@ -108,6 +108,70 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
                             }
                         });
             }
+
+            @Override
+            public void getTestData() {
+                if (ui instanceof TestUi) {
+                    mApiService.getCpuData()
+                            .map(new HttpResultFunc<List<CpuBean>>())
+                            .compose(MainPresenter.this.<List<CpuBean>>applySchedulers())
+                            .subscribe(new RequestCallBack<List<CpuBean>>() {
+
+                                @Override
+                                public void onResponse(List<CpuBean> response) {
+                                    ((TestUi) ui).getTestDataCallback(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void getNewsTZGG(String url, final boolean isrefresh) {
+                if (ui instanceof  NewsUi){
+//                    BaseActivity.currentActivity.showProgressDialog();
+                    mApiService.getNewsTZGG(url)
+                            .map(new HttpResultFuncNewsTZGG())
+                            .compose(MainPresenter.this.<List<News>>applySchedulers())
+                            .subscribe(new RequestCallBack<List<News>>() {
+                                @Override
+                                public void onResponse(List<News> response) {
+//                                    BaseActivity.currentActivity.hideProgressDialog();
+                                    ((NewsUi) ui).getNewsCallback(response,isrefresh);
+                                }
+                                @Override
+                                public void onFailure(ResponseError error) {
+//                                    BaseActivity.currentActivity.hideProgressDialog();
+                                    ui.onResponseError(error);
+                                }
+                            });
+
+                }
+            }
+
+            @Override
+            public void getNewsCountTZGG(String url) {
+                if (ui instanceof  NewsUi)
+                    mApiService.getNewsCountTZGG(url)
+                            .map(new HttpResultFuncNewsCountTZGG())
+                            .compose(MainPresenter.this.<NewsCount>applySchedulers())
+                            .subscribe(new RequestCallBack<NewsCount>() {
+                                @Override
+                                public void onResponse(NewsCount response) {
+                                    ((NewsUi) ui).getNewsCountCallback(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    BaseActivity.currentActivity.hideProgressDialog();
+                                    ui.onResponseError(error);
+                                }
+                            });
+            }
         };
     }
 
@@ -121,5 +185,8 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     public interface  NewsUi extends MainUi{
         void getNewsCallback(List<News>newsList,boolean string);
         void getNewsCountCallback(NewsCount newsCount);
+    }
+    public interface TestUi extends MainUi{
+        void getTestDataCallback(List<CpuBean> string);
     }
 }

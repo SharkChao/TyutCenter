@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
+import first.winning.com.tyutcenter.model.test.CpuBean;
 import first.winning.com.tyutcenter.model.HttpResult;
 import first.winning.com.tyutcenter.model.ReSearchInfo;
 import io.reactivex.Observable;
@@ -26,9 +27,17 @@ public interface ApiService {
     // 获取新闻信息 index需要手动加/
     @GET("")
     Observable<String> getNews1(@Url String url);
+    @GET("")
+    Observable<String> getNewsTZGG(@Url String url);
 
     //获取新闻总条数
     @GET("xyxw/{url}.htm")
     Observable<String> getNewsCount(@Path("url")String url);
 
+    //获取通知公告新闻总条数
+    @GET("xyxw/{url}.htm")
+    Observable<String> getNewsCountTZGG(@Path("url")String url);
+
+    @GET("Cpu")
+    Observable<HttpResult<List<CpuBean>>>getCpuData();
 }

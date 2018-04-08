@@ -2,16 +2,20 @@ package first.winning.com.tyutcenter.fragment.OneFragment;
 
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
 
 import first.winning.com.tyutcenter.R;
-import first.winning.com.tyutcenter.adapter.FragmentNews1Adapter;
+import first.winning.com.tyutcenter.adapter.FragmentNewsNormalAdapter;
+import first.winning.com.tyutcenter.adapter.FragmentNewsTZGGAdapter;
 import first.winning.com.tyutcenter.annotation.ContentView;
 import first.winning.com.tyutcenter.base.BaseFragment;
 import first.winning.com.tyutcenter.constants.Constants;
@@ -20,7 +24,6 @@ import first.winning.com.tyutcenter.model.News;
 import first.winning.com.tyutcenter.model.NewsCount;
 import first.winning.com.tyutcenter.model.ResponseError;
 import first.winning.com.tyutcenter.presenter.MainPresenter;
-import first.winning.com.tyutcenter.utils.CommonUtil;
 import first.winning.com.tyutcenter.views.RecycleViewDivider;
 
 /**
@@ -30,14 +33,15 @@ import first.winning.com.tyutcenter.views.RecycleViewDivider;
 
 @ContentView(R.layout.fragment_news1)
 public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> implements MainPresenter.NewsUi{
-    private String url = "tzgg";
+    private String url = "xyxw/tzgg";
     private static NewsFragment3 fragment_news1;
     FragmentNews1Binding mBinding;
     private RecyclerView mRvList;
-    private FragmentNews1Adapter mAdapter;
+    private FragmentNewsTZGGAdapter mAdapter;
     private int mAllCount;
     private int mCurrent;
     private int mPage;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void initTitle() {
@@ -48,20 +52,17 @@ public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> im
     protected void initViews(ViewDataBinding viewDataBinding, Bundle savedInstanceState) {
         mBinding = (FragmentNews1Binding) viewDataBinding;
         mRvList = mBinding.rvList;
+        mSwipeRefreshLayout = mBinding.swipeRefreshLayout;
         mRvList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        mAdapter = new FragmentNews1Adapter(R.layout.fragment_news1_item);
+        mAdapter = new FragmentNewsTZGGAdapter(R.layout.fragment_news_tzgg_item);
         //第一次不需要进入加载更多的回调中
         mRvList.addItemDecoration(new RecycleViewDivider(getActivity(),LinearLayoutManager.VERTICAL));
         mRvList.setAdapter(mAdapter);
-//        mAdapter.disableLoadMoreIfNotFullPage();
-
-
     }
 
     @Override
     protected void initData() {
-//        getCallbacks().getNewsCount(url);
-//        getCallbacks().getNews1(url,"");
+
     }
 
     @Override
@@ -74,6 +75,7 @@ public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> im
                     public void run() {
                         if (mAllCount == 0){
                             Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_SHORT).show();
+                            mAdapter.loadMoreEnd();
                             return;
                         }
                         if (mCurrent >= mAllCount) {
@@ -86,9 +88,9 @@ public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> im
                             int currentIndex = mCurrent/ Constants.NEWS_ONE_PAGE;
                             currentIndex++;
                             if (currentIndex == 1){
-//                                getCallbacks().getNews1(url,"",false);
+                                getCallbacks().getNewsTZGG(Constants.base_url+"/"+url+".htm",false);
                             }else {
-//                                getCallbacks().getNews1(url,"/"+(mPage-currentIndex+1),false);
+                                getCallbacks().getNewsTZGG(Constants.base_url+"/"+url+"/"+(mPage-currentIndex+1)+".htm",false);
                             }
 
                         }
@@ -98,7 +100,23 @@ public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> im
 
             }
         });
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ARouter.getInstance()
+                        .build("/center/NewsDetailActivity")
+                        .withString("url",mAdapter.getData().get(position).getDetailUrl())
+                        .navigation();
+            }
+        });
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getCallbacks().getNewsTZGG(Constants.base_url+"/"+url+".htm",true);
+            }
+        });
     }
+
     @Override
     protected void handleArguments(Bundle arguments) {
 
@@ -106,10 +124,16 @@ public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> im
 
     @Override
     public void getNewsCallback(List<News> newsList,boolean isRefresh) {
-        mAdapter.setNewData(newsList);
+        mSwipeRefreshLayout.setRefreshing(false);
+        mAdapter.getData().addAll(newsList);
+        mAdapter.notifyDataSetChanged();
         mCurrent = mCurrent + newsList.size();
+        mAdapter.loadMoreComplete();
         if (isRefresh){
             mCurrent = newsList.size();
+            mAdapter.getData().clear();
+            mAdapter.setNewData(newsList);
+            Toast.makeText(getActivity(), "刷新成功!", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -119,7 +143,6 @@ public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> im
         if (newsCount != null){
             mAllCount = newsCount.getCount();
             mPage = newsCount.getPage();
-            mAdapter.loadMoreComplete();
         }
     }
 
@@ -134,5 +157,12 @@ public class NewsFragment3 extends BaseFragment<MainPresenter.MainUiCallback> im
     public void onResponseError(ResponseError error) {
         super.onResponseError(error);
         mAdapter.loadMoreFail();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected void lazyLoad() {
+        getCallbacks().getNewsCountTZGG("tzgg");
+        getCallbacks().getNewsTZGG(Constants.base_url+"/"+url+".htm",false);
     }
 }

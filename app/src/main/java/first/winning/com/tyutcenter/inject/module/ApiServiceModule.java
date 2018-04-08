@@ -29,6 +29,7 @@ public class ApiServiceModule {
 //    private static final String BASE_URL =  "http://172.16.0.117:8080";
 //   private static final String BASE_URL =  "http://172.16.75.245:8080";//本机
     private static final String BASE_URL =  "http://www2017.tyut.edu.cn";
+//    private static final String BASE_URL =  "http://172.16.75.7:5490";
     private static final int DEFAULT_TIMEOUT = 5;
     private static final int READ_TIMEOUT = 3;
 

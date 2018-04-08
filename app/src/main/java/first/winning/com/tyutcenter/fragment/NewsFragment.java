@@ -47,6 +47,11 @@ public class NewsFragment extends BaseFragment<MainPresenter.MainUiCallback> imp
     }
 
     @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
     protected void handleArguments(Bundle arguments) {
 
     }
