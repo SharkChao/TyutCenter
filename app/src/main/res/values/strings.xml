@@ -10,7 +10,7 @@
     <string name="toast_error_unknown">抱歉！系统出现未知错误!</string>
     <!-- 设置界面一些信息 -->
     <string name="about_version">Android + 版本号:</string>
-    <string name="about_copyright">\nCopyright ©2018卫宁健康科技集团股份有限公司\nWinning Health Technology Group Co.,Ltd.</string>
+    <string name="about_copyright">\nCopyright ©2018sharkchao个人开源项目\nsharkchao only Technology Group Co.,Ltd.</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="first.winning.com.tyutcenter">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.tyutcenter"
+         >
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:name=".base.MyLeanCloudApp"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
+        tools:replace="android:name"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
@@ -24,30 +29,22 @@
             android:name=".activity.HomeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".activity.NewsDetailActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
-
-        <!-- 实时通信模块、推送（均需要加入以下声明） START -->
-        <!-- 实时通信模块、推送都要使用 PushService -->
-        <service android:name="com.avos.avoscloud.PushService"/>
-        <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <!-- 实时通信模块、推送 END -->
-
-        <!-- 反馈组件（需要加入以下声明）START -->
-        <activity
-            android:name="com.avos.avoscloud.feedback.ThreadActivity" >
+            android:screenOrientation="portrait">
         </activity>
-        <!-- 反馈组件 END -->
+        <activity
+            android:name=".activity.ExpressDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+
+
 
     </application>
 

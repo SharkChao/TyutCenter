@@ -1,4 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,139 +8,14 @@
     android:orientation="vertical"
     android:overScrollMode="never"
     android:scrollbars="none">
-    <LinearLayout
-        android:background="@color/grey_normal_bg"
-        android:orientation="vertical"
+
+    <Button
+        android:id="@+id/click"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/ivUserAvatar"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="45dp"
-                app:roundAsCircle="true"
-                app:placeholderImage="@mipmap/lx_iv_no_head_pic"
-                app:placeholderImageScaleType="fitXY"/>
-            <TextView
-                android:id="@+id/tvUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style=" @style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                tools:text="姓名"
-                android:text="姓名"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/ivUserAvatar"
-                android:textSize="@dimen/font_small"
-                android:textColor="@color/white"/>
-            <TextView
-
-                android:id="@+id/tvUserPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style=" @style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                tools:text="手机号"
-                android:text="手机号"
-                android:layout_marginBottom="30dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/tvUserName"
-                android:textSize="@dimen/font_small"
-                android:textColor="@color/white"/>
-            <LinearLayout
-                android:id="@+id/llMineEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/lx_top_my_edit"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                >
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@mipmap/lx_iv_top_edit"
-                    />
-                <TextView
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style=" @style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                    android:textSize="@dimen/font_smaller"
-                    android:textColor="@color/white"
-                    android:text="编辑"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <first.winning.com.tyutcenter.views.WaveView
-            android:id="@+id/waveView"
-            android:rotation="180"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            android:layout_centerHorizontal="true"
-            />
-
-        <first.winning.com.tyutcenter.views.MyItemOne
-            android:id="@+id/lrvFocusDoctor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-35dp"
-            >
-        </first.winning.com.tyutcenter.views.MyItemOne>
-        <first.winning.com.tyutcenter.views.MyItemOne
-            android:id="@+id/lrvFocusHospital"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-1dp"
-            >
-        </first.winning.com.tyutcenter.views.MyItemOne>
-        <first.winning.com.tyutcenter.views.MyItemOne
-            android:layout_marginTop="10dp"
-            android:id="@+id/lrvSwitchPatient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        </first.winning.com.tyutcenter.views.MyItemOne>
-
-        <first.winning.com.tyutcenter.views.MyItemOne
-            android:id="@+id/lrvYuYue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-1dp">
-
-        </first.winning.com.tyutcenter.views.MyItemOne>
-        <first.winning.com.tyutcenter.views.MyItemOne
-            android:id="@+id/lrvDingDan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-1dp"
-            android:visibility="gone">
-
-        </first.winning.com.tyutcenter.views.MyItemOne>
-        <first.winning.com.tyutcenter.views.MyItemOne
-            android:id="@+id/lrvMyFK"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-1dp">
-        </first.winning.com.tyutcenter.views.MyItemOne>
-        <first.winning.com.tyutcenter.views.MyItemOne
-            android:id="@+id/btnConfig"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
-
-        </first.winning.com.tyutcenter.views.MyItemOne>
-    </LinearLayout>
-</ScrollView>
+        android:layout_height="match_parent"
+        android:text="个人信息"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+       />
+</LinearLayout>
+</layout>

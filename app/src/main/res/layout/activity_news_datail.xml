@@ -4,10 +4,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <first.winning.com.tyutcenter.views.MyWebView
+    <com.tyutcenter.views.MyWebView
         android:id="@+id/myWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </first.winning.com.tyutcenter.views.MyWebView>
+    </com.tyutcenter.views.MyWebView>
 </LinearLayout>
 </layout>
