@@ -11,6 +11,7 @@ MobSDK {
     UMSSDK {}
     SMSSDK {}
     ShareSDK {}
+    MobPush {}
     // UMSSDK依赖于ShareSDK和SMSSDK，故还需要引入这两个SDK
     ShareSDK {
         devInfo {
@@ -21,8 +22,8 @@ MobSDK {
                 shareByAppClient false
             }
             Wechat {
-                appId "wx4868b35061f87885"
-                appSecret "64020361b8ec4c99936c0e3999a9f249"
+                appId "wx90f7a27ba9bd1520"
+                appSecret "63dfd6cf1a3c32c34f47bedf78e94a08"
             }
             QQ {
                 appId "1106014544"
@@ -73,9 +74,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.android.support:multidex:1.0.1'
-
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.1'
 
+    compile 'com.android.support:support-v4:23.2.1'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     //rxjava2.0
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
@@ -109,6 +110,11 @@ dependencies {
     compile 'com.facebook.fresco:fresco:1.3.0'
     //cardview
     compile 'com.android.support:cardview-v7:26.1.0'
+    //图片双指缩放/浏览/单点缩放等
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation files('libs/KJFrameForAndroid_v2.234.jar')
+    //表情库
+    implementation 'com.rockerhieu.emojicon:library:1.3.1'
 
-
+    compile 'com.youth.banner:banner:1.4.10'  //最新版本
 }

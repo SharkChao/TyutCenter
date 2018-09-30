@@ -6,8 +6,9 @@ import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.News;
 import com.tyutcenter.model.NewsCount;
-import com.tyutcenter.model.ReSearchInfo;
 import com.tyutcenter.model.ResponseError;
+import com.tyutcenter.model.Result;
+import com.tyutcenter.model.User;
 import com.tyutcenter.model.test.CpuBean;
 import com.tyutcenter.network.ApiService;
 import com.tyutcenter.network.RequestCallBack;
@@ -18,8 +19,6 @@ import com.tyutcenter.network.map.HttpResultFuncNewsCountTZGG;
 import com.tyutcenter.network.map.HttpResultFuncNewsTZGG;
 
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by Admin on 2018/4/2.
@@ -49,6 +48,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
         void getTestData();
         void getNewsTZGG(String url,boolean isrefresh);
         void  getNewsCountTZGG(String url);
+        void getLoginAndroid(User user);
     }
 
     @Override
@@ -95,15 +95,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
             @Override
             public void login() {
-                mApiService.getResearchInfo("5")
-                                .map(new HttpResultFunc<List<ReSearchInfo>>())
-                                .compose(MainPresenter.this.<List<ReSearchInfo>>applySchedulers())
-                                .subscribe(new Consumer<List<ReSearchInfo>>() {
-                                    @Override
-                                    public void accept(List<ReSearchInfo> reSearchInfos) throws Exception {
-                                        ((MainHomeUi)ui).LoginCallback(reSearchInfos);
-                                    }
-                                });
+
 
             }
 
@@ -213,6 +205,27 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
                                 }
                             });
             }
+
+            @Override
+            public void getLoginAndroid(User user) {
+                if (ui instanceof MainHomeUi){
+                    mApiService.loginAndroid(user)
+                            .map(new HttpResultFunc<Result>())
+                            .compose(MainPresenter.this.<Result>applySchedulers())
+                            .subscribe(new RequestCallBack<Result>() {
+                                @Override
+                                public void onResponse(Result response) {
+                                    ((MainHomeUi) ui).getLoginResult(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    BaseActivity.currentActivity.hideProgressDialog();
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
         };
     }
 
@@ -221,7 +234,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
     }
     public interface MainHomeUi extends MainUi{
-        void LoginCallback(List<ReSearchInfo>reSearchInfos);
+        void getLoginResult(Result result);
     }
     public interface  NewsUi extends MainUi{
         void getNewsCallback(List<News>newsList,boolean string);
@@ -239,4 +252,5 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     public interface ExpressDetailUi extends MainUi{
 
     }
+
 }

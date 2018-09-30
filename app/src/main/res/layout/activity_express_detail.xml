@@ -1,47 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-   <ImageView
-       android:id="@+id/ivHead"
-       android:layout_width="50dp"
-       android:layout_height="50dp"
-       android:src="@mipmap/lx_iv_no_head_pic"
-       app:layout_constraintLeft_toLeftOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       android:layout_marginLeft="@dimen/spacing_20"
-       android:layout_marginTop="@dimen/spacing_20"
-       />
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@id/ivHead"
-        android:text="太原理工大学表白墙"
-        app:layout_constraintTop_toTopOf="@id/ivHead"
-        android:layout_marginLeft="@dimen/spacing_15"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_normal"
-        />
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/tvName"
-        app:layout_constraintBottom_toBottomOf="@id/ivHead"
-        android:textSize="@dimen/font_smaller"
-        android:textColor="@color/font_gray"
-        android:text="08.20"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ivHead"
-        android:layout_marginTop="@dimen/spacing_15"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="@dimen/spacing_10"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="     87年前的今天，日本悍然发动侵华战争，给中华人民带来前所未有的灾难，曾经的苦难不能忘，曾经的牺牲不能忘。
-今天的我们更应当铭记历史，缅怀先烈，不忘国耻，珍惜和平，吾辈当自强！（图via共青团中央学校部）"/>
-</android.support.constraint.ConstraintLayout>
+    android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/chat_msg_input_box"
+        android:layout_marginBottom="@dimen/spacing_10">
+        <LinearLayout
+            android:id="@+id/llView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/spacing_15"
+            android:layout_marginRight="@dimen/spacing_15">
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_larger"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/spacing_20"
+                android:text="劫后谭秦东称今生绝不入蒙曾吐槽鸿茅药酒被抓"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/spacing_15">
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="北青深一度"
+                    />
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_20"
+                    android:text="昨天 11:28"/>
+            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/spacing_15"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_15"
+                />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#7fd8d8d8"/>
+    <com.tyutcenter.views.KJChatKeyboard
+        android:id="@+id/chat_msg_input_box"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

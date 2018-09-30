@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tyutcenter.R;
+import com.tyutcenter.activity.ExpressDetailActivity;
 import com.tyutcenter.adapter.ExpressAdapter;
 import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseFragment;
@@ -19,10 +21,14 @@ import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.ResponseError;
 import com.tyutcenter.presenter.MainPresenter;
+import com.tyutcenter.utils.GlideImageLoader;
 import com.tyutcenter.views.EmptyView;
 import com.tyutcenter.views.RecycleViewDivider;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @ContentView(R.layout.fragment_express_page)
@@ -94,19 +100,54 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ExpressDetailActivity.startExpressDetailActivity(getActivity(),mAdapter.getData().get(position));
+            }
+        });
+
+    }
+
+    public void setBanner(List<Message>list){
+        final List<Message>temp = new ArrayList<>();
+        List<String>urls = new ArrayList<>();
+        List<String>titles = new ArrayList<>();
+        Iterator<Message> iterator = list.iterator();
+        while (iterator.hasNext()){
+            Message message = iterator.next();
+            if (message.getMsg_type().equals("14")&&urls.size()<4){
+                temp.add(message);
+                urls.add(message.getMsg_imgs().substring(1,message.getMsg_imgs().length()-1).toString());
+                titles.add(message.getMsg_title());
+                iterator.remove();
+            }
+        }
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_express_type_banner,null);
+        Banner banner = view.findViewById(R.id.banner);
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(urls);
+        banner.setBannerTitles(titles);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+        if(mAdapter.getHeaderLayoutCount() != 0){
+            mAdapter.removeAllHeaderView();
+            mAdapter.addHeaderView(view);
+        }else {
+            mAdapter.addHeaderView(view);
+        }
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
                 ARouter.getInstance()
-                        .build("/center/ExpressDetailActivity")
+                        .build("/center/BannerDetailActivity")
+                        .withString("url",temp.get(position).getMsg_content())
                         .navigation();
             }
         });
     }
-
     @Override
     protected void lazyLoad() {
-
     }
-
-
 
     @Override
     public void getMessage(List<Message> list) {
@@ -114,6 +155,7 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
             if (index > 0){
                 mMessageList.addAll(mAdapter.getData().size(),list);
             }else {
+                setBanner(list);
                 mMessageList.clear();
                 mMessageList.addAll(list);
             }

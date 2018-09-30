@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_2"
-                android:textSize="@dimen/font_small"
+                android:textSize="@dimen/font_smaller"
                 tools:text="腾讯新闻" />
 
             <TextView
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/gray_2"
-                android:textSize="@dimen/font_small"
+                android:textSize="@dimen/font_smaller"
                 tools:text="2018.5.4" />
         </LinearLayout>
 

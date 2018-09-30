@@ -34,7 +34,7 @@
                     android:id="@+id/tvFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_small"
+                    android:textSize="@dimen/font_smaller"
                     android:textColor="@color/gray_2"
                     tools:text="腾讯新闻"/>
                 <TextView
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:textSize="@dimen/font_small"
+                    android:textSize="@dimen/font_smaller"
                     android:textColor="@color/gray_2"
                     tools:text="2018.05.04"/>
             </LinearLayout>

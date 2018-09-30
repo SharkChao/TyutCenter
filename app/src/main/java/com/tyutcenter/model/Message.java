@@ -23,6 +23,7 @@ public class Message implements MultiItemEntity,Serializable {
     private int publish_person;
     private int layout_type;
     private String publish_person_name;
+    private String head_url;
 
     public String getMsg_title() {
         return msg_title;
@@ -117,5 +118,13 @@ public class Message implements MultiItemEntity,Serializable {
 
     public void setPublish_person_name(String publish_person_name) {
         this.publish_person_name = publish_person_name;
+    }
+
+    public String getHead_url() {
+        return head_url;
+    }
+
+    public void setHead_url(String head_url) {
+        this.head_url = head_url;
     }
 }

@@ -36,31 +36,33 @@ public class ExpressAdapter extends BaseMultiItemQuickAdapter<Message,BaseViewHo
                 break;
             case Message.TYPE_IMG1:
                 helper.setText(R.id.tvTitle, CommonUtil.isStrEmpty(item.getMsg_title())?"":item.getMsg_title());
-                helper.setText(R.id.tvFrom,CommonUtil.isStrEmpty(item.getPublish_person()+"")?"":"管理员");
+                helper.setText(R.id.tvFrom,CommonUtil.isStrEmpty(item.getPublish_person_name())?"未知":item.getPublish_person_name());
                 helper.setText(R.id.tvDate,CommonUtil.isStrEmpty(item.getMsg_date())?"":item.getMsg_date());
                 ImageView ivImg1 = helper.getView(R.id.ivImg1);
                 Glide.with(helper.getConvertView().getContext()).load(item.getImages()[0]).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg1);
                 break;
             case Message.TYPE_IMG2:
                 helper.setText(R.id.tvTitle, CommonUtil.isStrEmpty(item.getMsg_title())?"":item.getMsg_title());
-                helper.setText(R.id.tvFrom,CommonUtil.isStrEmpty(item.getPublish_person()+"")?"":"管理员");
+                helper.setText(R.id.tvFrom,CommonUtil.isStrEmpty(item.getPublish_person_name())?"未知":item.getPublish_person_name());
                 helper.setText(R.id.tvDate,CommonUtil.isStrEmpty(item.getMsg_date())?"":item.getMsg_date());
                 ImageView ivImg2 = helper.getView(R.id.ivImg1);
                 Glide.with(helper.getConvertView().getContext()).load(item.getImages()[0]).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg2);
                 break;
             case Message.TYPE_IMG3:
                 helper.setText(R.id.tvTitle, CommonUtil.isStrEmpty(item.getMsg_title())?"":item.getMsg_title());
-                helper.setText(R.id.tvFrom,CommonUtil.isStrEmpty(item.getPublish_person()+"")?"":"管理员");
+                helper.setText(R.id.tvFrom,CommonUtil.isStrEmpty(item.getPublish_person_name())?"":item.getPublish_person_name());
                 helper.setText(R.id.tvDate,CommonUtil.isStrEmpty(item.getMsg_date())?"":item.getMsg_date());
                 ImageView ivImg4 = helper.getView(R.id.ivImg1);
                 ImageView ivImg5 = helper.getView(R.id.ivImg2);
                 ImageView ivImg6 = helper.getView(R.id.ivImg3);
-                Glide.with(helper.getConvertView().getContext()).load(item.getImages()[0]).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg4);
-                Glide.with(helper.getConvertView().getContext()).load(item.getImages()[1]).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg5);
-                Glide.with(helper.getConvertView().getContext()).load(item.getImages()[2]).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg6);
+                Glide.with(helper.getConvertView().getContext()).load(item.getImages()[0]).asBitmap().fitCenter()
+                    .skipMemoryCache(false).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg4);
+                Glide.with(helper.getConvertView().getContext()).load(item.getImages()[1]).asBitmap().fitCenter()
+                        .skipMemoryCache(false).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg5);
+                Glide.with(helper.getConvertView().getContext()).load(item.getImages()[2]).asBitmap().fitCenter()
+                        .skipMemoryCache(false).placeholder(R.mipmap.iv_default_news).error(R.mipmap.iv_default_news).into(ivImg6);
                 break;
         }
     }
-
 
 }

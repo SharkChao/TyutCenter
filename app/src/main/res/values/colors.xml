@@ -3,10 +3,11 @@
     <color name="colorPrimary">#D13A2D</color>
     <color name="colorBlue">#169BD5</color>
     <color name="colorGreen">#7ED321</color>
-
+    <color name="emoji_keyboard_bg_light">#f6f5f5</color>
     <color name="colorPrimaryDark">#AA4344</color>
-
+    <color name="background_tab_pressed">#6633B5E5</color>
     <color name="colorAccent">#AA4344</color>
+    <color name="colorBlue2">#1F84D4</color>
 
     <color name="white">#FFFFFF</color>
 

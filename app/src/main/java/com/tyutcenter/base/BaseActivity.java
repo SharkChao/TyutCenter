@@ -124,6 +124,16 @@ public abstract class BaseActivity<UC> extends AppCompatActivity implements Base
             mLlRight.setOnClickListener(listener);
         }
     }
+    protected TextView getRightTitle(){
+        return mTvRight;
+    }
+    protected  void setRightTitle(String title){
+        if (title != null && !"".equalsIgnoreCase(title)){
+            mTvRight.setVisibility(View.VISIBLE);
+            mTvRight.setText(title);
+            mBtnRight.setVisibility(View.GONE);
+        }
+    }
     protected void setRightTitleAndIcon(String title, @DrawableRes int icon, View.OnClickListener listener){
         if (title != null && !"".equalsIgnoreCase(title)){
             mTvRight.setVisibility(View.VISIBLE);
@@ -143,6 +153,19 @@ public abstract class BaseActivity<UC> extends AppCompatActivity implements Base
             mTvLeft.setText(title);
             mBtnLeft.setVisibility(View.GONE);
             mLlLeft.setOnClickListener(listener);
+        }
+    }
+    protected  void setLeftTitle(String title){
+        if (title != null && !"".equalsIgnoreCase(title)){
+            mTvLeft.setVisibility(View.VISIBLE);
+            mTvLeft.setText(title);
+            mBtnLeft.setVisibility(View.VISIBLE);
+            mLlLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
         }
     }
     protected  void setLeftTitleColor(int resId){

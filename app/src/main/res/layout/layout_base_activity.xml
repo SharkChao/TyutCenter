@@ -25,12 +25,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginRight="10dp"
-                android:ellipsize="end"
                 android:lines="1"
-                android:maxEms="5"
+                android:visibility="gone"
                 android:scrollHorizontally="true"
-                android:text=""
-                android:textColor="@color/black"
+                android:text="200跟帖"
+                android:gravity="center"
+                android:background="@drawable/shape_top_comment_red"
+                android:textColor="@color/white"
                 android:textSize="@dimen/font_normal" />
 
             <ImageView
@@ -39,6 +40,7 @@
                 android:layout_height="30dp"
                 android:layout_marginRight="@dimen/spacing_10"
                 android:clickable="false"
+                android:visibility="gone"
                 android:scaleType="fitXY" />
 
         </LinearLayout>

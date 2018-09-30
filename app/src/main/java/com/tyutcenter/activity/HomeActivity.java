@@ -1,8 +1,10 @@
 package com.tyutcenter.activity;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -10,15 +12,16 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.tyutcenter.R;
 import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseActivity;
+import com.tyutcenter.data.UserData;
 import com.tyutcenter.databinding.ActivityHomeBinding;
 import com.tyutcenter.fragment.ConnectFragment;
 import com.tyutcenter.fragment.ExpressFragment;
 import com.tyutcenter.fragment.MineFragment;
 import com.tyutcenter.fragment.NewsFragment;
-import com.tyutcenter.model.ReSearchInfo;
+import com.tyutcenter.model.ResponseError;
+import com.tyutcenter.model.Result;
 import com.tyutcenter.presenter.MainPresenter;
-
-import java.util.List;
+import com.tyutcenter.service.MobPushService;
 
 @ContentView(R.layout.activity_home)
 @Route(path = "/center/HomeActivity")
@@ -67,6 +70,13 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
                 .addItem(new BottomNavigationItem(R.mipmap.iv_mine, "我的").setActiveColorResource(R.color.colorPrimary))//依次添加item,分别icon和名称
                 .setFirstSelectedPosition(0)//设置默认选择item
                 .initialise();//初始化
+        //启动服务
+        Intent intent = new Intent(this, MobPushService.class);
+        startService(intent);
+        //保存用户到服务端
+        if (UserData.getUser() != null){
+            getCallbacks().getLoginAndroid(UserData.getUser());
+        }
     }
 
     @Override
@@ -103,7 +113,14 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
     }
 
     @Override
-    public void LoginCallback(List<ReSearchInfo> reSearchInfos) {
-//        Toast.makeText(this, reSearchInfos.size(), Toast.LENGTH_SHORT).show();
+    public void getLoginResult(Result result) {
+        if (result != null && result.getCode() > 0){
+            Toast.makeText(this, "上传用户信息成功!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onResponseError(ResponseError error) {
+        super.onResponseError(error);
     }
 }

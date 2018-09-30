@@ -5,6 +5,8 @@ import com.tyutcenter.model.HttpResult;
 import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.ReSearchInfo;
+import com.tyutcenter.model.Result;
+import com.tyutcenter.model.User;
 import com.tyutcenter.model.test.CpuBean;
 
 import java.util.List;
@@ -12,7 +14,9 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -47,5 +51,7 @@ public interface ApiService {
     Observable<HttpResult<List<MessageType>>>getMessageTitle();
     @GET("message/getMessage")
     Observable<HttpResult<List<Message>>>getMessage(@Query("index")int index);
+    @POST("user/loginAndroid")
+    Observable<HttpResult<Result>>loginAndroid(@Body User user);
 
 }
