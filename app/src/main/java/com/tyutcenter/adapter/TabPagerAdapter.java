@@ -18,7 +18,7 @@ import com.tyutcenter.fragment.OneFragment.NewsFragment6;
 
 public class TabPagerAdapter extends FragmentPagerAdapter{
 
-    private String[] titles = {"理工要闻","校园活动","通知公告","视频理工","学术活动","媒体理工"};
+    private String[] titles = {"通知公告","校园活动","理工要文","视频理工","学术活动","媒体理工"};
 
     public TabPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -29,16 +29,16 @@ public class TabPagerAdapter extends FragmentPagerAdapter{
         BaseFragment baseFragment = null;
         switch (position){
             case 0:
-                NewsFragment1 newsFragment1 = NewsFragment1.getInstance();
-                baseFragment = newsFragment1;
+                NewsFragment3 newsFragment3 = NewsFragment3.getInstance();
+                baseFragment = newsFragment3;
                 break;
             case 1:
                 NewsFragment2 newsFragment2 = NewsFragment2.getInstance();
                 baseFragment = newsFragment2;
                 break;
             case 2:
-                NewsFragment3 newsFragment3 =  NewsFragment3.getInstance();
-                baseFragment = newsFragment3;
+                NewsFragment1 newsFragment1 =  NewsFragment1.getInstance();
+                baseFragment = newsFragment1;
                 break;
             case 3:
                 NewsFragment4 newsFragment4 = NewsFragment4.getInstance();

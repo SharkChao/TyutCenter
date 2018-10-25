@@ -2,6 +2,7 @@ package com.tyutcenter.inject.module;
 
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.tyutcenter.constants.Constants;
 import com.tyutcenter.inject.StringConverterFactory;
 import com.tyutcenter.network.ApiService;
 import com.tyutcenter.network.ResponseErrorProxy;
@@ -26,11 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 public class ApiServiceModule {
-    private static final String BASE_URL1 =  "http://www2017.tyut.edu.cn";
-//    private static final String BASE_URL2 =  "http://106.12.84.31:9090";
-        private static final String BASE_URL2 =  "http://172.16.30.125:9090";
-
-
     private static final int DEFAULT_TIMEOUT = 5;
     private static final int READ_TIMEOUT = 3;
 
@@ -63,7 +59,7 @@ public class ApiServiceModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient OkHttpClientBuilder){
         return  new Retrofit.Builder()
-                .baseUrl(BASE_URL2)
+                .baseUrl(Constants.BASE_SERVER_URL)
                 .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

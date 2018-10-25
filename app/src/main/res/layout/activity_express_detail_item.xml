@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
-        android:layout_marginTop="@dimen/spacing_10"
+        android:layout_marginRight="@dimen/spacing_5"
+        android:layout_marginTop="@dimen/spacing_5"
         android:background="@mipmap/iv_default_news2"/>
 </LinearLayout>

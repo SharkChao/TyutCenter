@@ -50,7 +50,7 @@ public interface ApiService {
     @GET("message/getMessageType")
     Observable<HttpResult<List<MessageType>>>getMessageTitle();
     @GET("message/getMessage")
-    Observable<HttpResult<List<Message>>>getMessage(@Query("index")int index);
+    Observable<HttpResult<List<Message>>>getMessage(@Query("index")int index,@Query("msg_type_id")int msg_type_id);
     @POST("user/loginAndroid")
     Observable<HttpResult<Result>>loginAndroid(@Body User user);
 

@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tyutcenter.R;
 import com.tyutcenter.adapter.CommentAdapter;
 import com.tyutcenter.model.Comment;
+import com.tyutcenter.utils.CommentFloorItemDecoration;
 import com.tyutcenter.utils.CommonUtil;
 
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class FloorView extends NestedScrollView{
                 return false;
             }
         });
+        mRvList.addItemDecoration(new CommentFloorItemDecoration(getContext()));
         mAdapter = new CommentAdapter(mCommentList);
         mRvList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

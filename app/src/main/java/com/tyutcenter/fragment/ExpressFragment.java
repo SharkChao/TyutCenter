@@ -11,7 +11,9 @@ import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseFragment;
 import com.tyutcenter.databinding.FragmentExpressBinding;
 import com.tyutcenter.model.MessageType;
+import com.tyutcenter.model.ResponseError;
 import com.tyutcenter.presenter.MainPresenter;
+import com.tyutcenter.views.lazyviewpager.LazyViewPager;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ import java.util.List;
 public class ExpressFragment extends BaseFragment<MainPresenter.MainUiCallback> implements MainPresenter.ExpressUi{
 
     private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+    private LazyViewPager mViewPager;
     private ExpressPagerAdapter mExpressPagerAdapter;
 
     @Override
@@ -64,5 +66,10 @@ public class ExpressFragment extends BaseFragment<MainPresenter.MainUiCallback> 
     @Override
     public void getMessageType(List<MessageType> list) {
         mExpressPagerAdapter.setTitles(list);
+    }
+
+    @Override
+    public void onResponseError(ResponseError error) {
+        super.onResponseError(error);
     }
 }

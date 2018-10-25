@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -75,7 +75,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
         mChatMsgInputBox = findViewById(R.id.chat_msg_input_box);
         mTvTime.setFocusableInTouchMode(true);
         mTvTime.requestFocus();
-        mRvList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false){
+        mRvList.setLayoutManager(new GridLayoutManager(this,3){
             @Override
             public boolean canScrollVertically() {
                 return false;

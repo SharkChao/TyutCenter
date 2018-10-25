@@ -2,10 +2,11 @@ package com.tyutcenter.views;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,33 +20,37 @@ import com.tyutcenter.R;
  * getview方法最后必须调用
  */
 
-public class EmptyView extends View {
+public class EmptyView extends LinearLayout {
 
-    private View view;
     public static final String TYPE_LOADING = "000";
     public static final String TYPE_ERROR = "001";
     public static final String TYPE_NO_DATA = "002";
     private TextView tvTitle;
     private ImageView ivEmpty;
     private ProgressBar progressBar;
-    private OnClickListener listener;
     private ConstraintLayout plLayout;
 
-    public EmptyView(Context context, ViewGroup viewGroup) {
+    public EmptyView(Context context) {
         super(context);
-       init(context,viewGroup);
+        init(context);
     }
-    public EmptyView(Context context, ViewGroup viewGroup, String type) {
-        super(context);
-        init(context,viewGroup);
-        setType(type);
+
+    public EmptyView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
     }
-    private void init(Context context, ViewGroup viewGroup){
-        view = LayoutInflater.from(context).inflate(R.layout.wn_empty_view, viewGroup, false);
-        ivEmpty = (ImageView) view.findViewById(R.id.ivEmpty);
-        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-        plLayout= (ConstraintLayout) view.findViewById(R.id.plLayout);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+    public EmptyView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    private void init(Context context){
+       LayoutInflater.from(context).inflate(R.layout.wn_empty_view,this);
+        ivEmpty = findViewById(R.id.ivEmpty);
+        tvTitle = findViewById(R.id.tvTitle);
+        plLayout= findViewById(R.id.plLayout);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     public  void setType(String type){
@@ -69,12 +74,9 @@ public class EmptyView extends View {
         tvTitle.setText(text);
     }
     public void setRefreshListener(OnClickListener listener){
-        if (listener==null){
-            return;
+        if (listener != null){
+            plLayout.setOnClickListener(listener);
         }
-        plLayout.setOnClickListener(listener);
     }
-    public View getView(){
-        return  view;
-    }
+
 }

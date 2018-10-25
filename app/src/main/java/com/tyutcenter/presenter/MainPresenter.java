@@ -41,7 +41,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     //获取数据之后回调
     public interface MainUiCallback{
         void getExpressPageTitle();
-        void getExpressMessage(int index);
+        void getExpressMessage(int index,int msg_type_id);
         void login();
         void getNews1(String url,boolean isrefresh);
         void  getNewsCount(String url);
@@ -75,9 +75,9 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
             }
 
             @Override
-            public void getExpressMessage(int index) {
+            public void getExpressMessage(int index,int msg_type_id) {
                 if (ui instanceof ExpressFragmentUi)
-                    mApiService.getMessage(index)
+                    mApiService.getMessage(index,msg_type_id)
                             .map(new HttpResultFunc<List<Message>>())
                             .compose(MainPresenter.this.<List<Message>>applySchedulers())
                             .subscribe(new RequestCallBack<List<Message>>() {

@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -60,18 +59,18 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
         FragmentExpressPageBinding binding = (FragmentExpressPageBinding) viewDataBinding;
         mRvList = binding.rvList;
         mSwipeRefreshLayout = binding.swipeRefreshLayout;
-        mEmptyView = new EmptyView(mRvList.getContext(), (ViewGroup) mRvList.getParent());
+        mEmptyView = new EmptyView(mRvList.getContext());
         mEmptyView.setType(EmptyView.TYPE_LOADING);
         mEmptyView.setRefreshListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 index = 0;
-                getCallbacks().getExpressMessage(index);
+                getCallbacks().getExpressMessage(index,mMessageType.getId());
             }
         });
         mRvList.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         mAdapter = new ExpressAdapter(mMessageList);
-        mAdapter.setEmptyView(mEmptyView.getView());
+        mAdapter.setEmptyView(mEmptyView);
         //第一次不需要进入加载更多的回调中
         mRvList.addItemDecoration(new RecycleViewDivider(getActivity(),LinearLayoutManager.VERTICAL));
         mRvList.setAdapter(mAdapter);
@@ -79,7 +78,7 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
 
     @Override
     protected void initData() {
-       getCallbacks().getExpressMessage(index);
+       getCallbacks().getExpressMessage(index,mMessageType.getId());
     }
 
     @Override
@@ -88,13 +87,13 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
             @Override
             public void onRefresh() {
                 index = 0;
-                getCallbacks().getExpressMessage(index);
+                getCallbacks().getExpressMessage(index,mMessageType.getId());
             }
         });
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                getCallbacks().getExpressMessage(++index);
+                getCallbacks().getExpressMessage(++index,mMessageType.getId());
             }
         },mRvList);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
