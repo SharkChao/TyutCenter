@@ -64,6 +64,7 @@ public class SplashActivity extends BaseActivity<MainPresenter.MainUiCallback> i
                             }
                         });
                     }else {
+                        startService()
                        UMSSDK.getLoginUser(new OperationCallback<User>(){
                            @Override
                            public void onSuccess(User user) {
