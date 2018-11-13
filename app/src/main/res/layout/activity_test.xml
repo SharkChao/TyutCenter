@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.tyutcenter.activity.HomeActivity"
+        android:background="@color/colorPrimary">
+
+    <com.vanniktech.emoji.EmojiEditText
+        android:id="@+id/emojiEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionSend"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="3"/>
+      <com.tyutcenter.views.MyWebView
+          android:id="@+id/myWebView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+      </com.tyutcenter.views.MyWebView>
+    </LinearLayout>
+

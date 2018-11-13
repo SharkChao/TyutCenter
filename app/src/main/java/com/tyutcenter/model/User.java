@@ -1,6 +1,7 @@
 package com.tyutcenter.model;
 
 public class User {
+    private String id;
     private String nickname;
     private String avatar;//头像
    private String phone;
@@ -188,5 +189,13 @@ public class User {
 
     public void setSnsplat(String snsplat) {
         this.snsplat = snsplat;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

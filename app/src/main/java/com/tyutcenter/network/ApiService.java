@@ -1,11 +1,14 @@
 package com.tyutcenter.network;
 
 
+import com.tyutcenter.model.Comment;
 import com.tyutcenter.model.HttpResult;
 import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.ReSearchInfo;
 import com.tyutcenter.model.Result;
+import com.tyutcenter.model.Test;
+import com.tyutcenter.model.TestResult;
 import com.tyutcenter.model.User;
 import com.tyutcenter.model.test.CpuBean;
 
@@ -53,5 +56,8 @@ public interface ApiService {
     Observable<HttpResult<List<Message>>>getMessage(@Query("index")int index,@Query("msg_type_id")int msg_type_id);
     @POST("user/loginAndroid")
     Observable<HttpResult<Result>>loginAndroid(@Body User user);
-
+    @POST("API/Label/LabelBinding")
+    Observable<TestResult>test(@Body Test test);
+    @POST("comment/createComment")
+    Observable<HttpResult<Result>>createComment(@Body Comment comment);
 }

@@ -115,6 +115,7 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
     @Override
     public void getLoginResult(Result result) {
         if (result != null && result.getCode() > 0){
+
             Toast.makeText(this, "上传用户信息成功!", Toast.LENGTH_SHORT).show();
         }
     }

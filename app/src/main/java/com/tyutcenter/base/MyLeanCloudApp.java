@@ -13,6 +13,8 @@ import com.tyutcenter.inject.component.DaggerAppComponent;
 import com.tyutcenter.inject.module.ApiServiceModule;
 import com.tyutcenter.presenter.MainPresenter;
 import com.tyutcenter.utils.AppUtils;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.ios.IosEmojiProvider;
 
 import javax.inject.Inject;
 
@@ -42,7 +44,7 @@ public class MyLeanCloudApp extends Application{
         Stetho.initializeWithDefaults(this);
         build.inject(this);
         Fresco.initialize(this);
-
+        EmojiManager.install(new IosEmojiProvider());
 
     }
 

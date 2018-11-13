@@ -14,6 +14,7 @@ public class Message implements MultiItemEntity,Serializable {
     public static final int TYPE_IMG1 = 1;
     public static final int TYPE_IMG2 = 2;
     public static final int TYPE_IMG3 = 3;
+    private int id;
     private String images[];
     private String msg_title;
     private String msg_type;
@@ -126,5 +127,13 @@ public class Message implements MultiItemEntity,Serializable {
 
     public void setHead_url(String head_url) {
         this.head_url = head_url;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

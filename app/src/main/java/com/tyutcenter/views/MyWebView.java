@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
+import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebStorage.QuotaUpdater;
@@ -89,13 +90,12 @@ public class MyWebView extends WebView {
 	public void setOpenUrl(String weburl) {
 		try {
 			String url = weburl;
-			// if (URLUtil.isNetworkUrl(url)) {
-			// this.loadUrl(url);
-			// } else {
-			// //
-			// ViewUtil.showToast(ViewUtil.getString(R.string.error_netwokerror),
-			// false);
-			// }
+			 if (URLUtil.isNetworkUrl(url)) {
+			 this.loadUrl(url);
+			 } else {
+			 //
+
+			 }
 			this.loadUrl(url);
 		} catch (Exception e) {
 

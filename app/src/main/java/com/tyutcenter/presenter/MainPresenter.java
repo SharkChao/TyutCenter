@@ -2,12 +2,15 @@ package com.tyutcenter.presenter;
 
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.base.BasePresenter;
+import com.tyutcenter.model.Comment;
 import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.News;
 import com.tyutcenter.model.NewsCount;
 import com.tyutcenter.model.ResponseError;
 import com.tyutcenter.model.Result;
+import com.tyutcenter.model.Test;
+import com.tyutcenter.model.TestResult;
 import com.tyutcenter.model.User;
 import com.tyutcenter.model.test.CpuBean;
 import com.tyutcenter.network.ApiService;
@@ -40,6 +43,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
     //获取数据之后回调
     public interface MainUiCallback{
+        void createComment(Comment comment);
         void getExpressPageTitle();
         void getExpressMessage(int index,int msg_type_id);
         void login();
@@ -49,11 +53,32 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
         void getNewsTZGG(String url,boolean isrefresh);
         void  getNewsCountTZGG(String url);
         void getLoginAndroid(User user);
+        void test(Test test);
     }
 
     @Override
     protected MainUiCallback createUiCallbacks(final MainUi ui) {
         return new MainUiCallback() {
+            @Override
+            public void createComment(Comment comment) {
+                if (ui instanceof ExpressDetailUi){
+                    mApiService.createComment(comment)
+                            .map(new HttpResultFunc<Result>())
+                            .compose(MainPresenter.this.<Result>applySchedulers())
+                            .subscribe(new RequestCallBack<Result>() {
+                                @Override
+                                public void onResponse(Result response) {
+                                    ((ExpressDetailUi) ui).createComment(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
             @Override
             public void getExpressPageTitle() {
                 if (ui instanceof ExpressUi)
@@ -226,6 +251,24 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
                             });
                 }
             }
+
+            @Override
+            public void test(Test test) {
+                if (ui instanceof ExpressUi)
+                    mApiService.test(test)
+                            .compose(MainPresenter.this.<TestResult>applySchedulers())
+                           .subscribe(new RequestCallBack<TestResult>() {
+                               @Override
+                               public void onResponse(TestResult response) {
+                                   System.out.println(response);
+                               }
+
+                               @Override
+                               public void onFailure(ResponseError error) {
+
+                               }
+                           });
+            }
         };
     }
 
@@ -250,7 +293,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
         void getMessage(List<Message>list);
     }
     public interface ExpressDetailUi extends MainUi{
-
+        void createComment(Result result);
     }
 
 }

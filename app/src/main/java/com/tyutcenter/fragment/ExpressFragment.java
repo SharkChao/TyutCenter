@@ -3,7 +3,6 @@ package com.tyutcenter.fragment;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 
 import com.tyutcenter.R;
 import com.tyutcenter.adapter.ExpressPagerAdapter;
@@ -12,6 +11,7 @@ import com.tyutcenter.base.BaseFragment;
 import com.tyutcenter.databinding.FragmentExpressBinding;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.ResponseError;
+import com.tyutcenter.model.Test;
 import com.tyutcenter.presenter.MainPresenter;
 import com.tyutcenter.views.lazyviewpager.LazyViewPager;
 
@@ -46,6 +46,17 @@ public class ExpressFragment extends BaseFragment<MainPresenter.MainUiCallback> 
         mViewPager.setAdapter(mExpressPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager,true);
         getCallbacks().getExpressPageTitle();
+
+        Test test = new Test();
+        test.setMac("746838FEFF9FFD90");
+        test.setOfficeCode("1");
+        test.setOfficeName("急诊科");
+        test.setTargetGender("0");
+        test.setTargetBirthday("2018-4-9 12:00:00");
+        test.setTargetName("小李");
+        test.setTargetCode("1");
+        test.setTargetType("1");
+        getCallbacks().test(test);
     }
 
     @Override

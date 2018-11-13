@@ -2,13 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/rootView">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:id="@+id/scrollView"
-        android:layout_above="@+id/chat_msg_input_box"
         android:layout_marginBottom="@dimen/spacing_10">
         <LinearLayout
             android:id="@+id/llView"
@@ -57,14 +57,136 @@
                 />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#7fd8d8d8"/>
-    <com.tyutcenter.views.KJChatKeyboard
-        android:id="@+id/chat_msg_input_box"
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"/>
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/spacing_5">
+    <RelativeLayout
+        android:id="@+id/rlText"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/llTextFunction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/spacing_5"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wn_iv_comment"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/spacing_15"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wn_iv_collect"
+                android:layout_marginLeft="@dimen/spacing_20"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wn_iv_transmit"
+                android:layout_marginLeft="@dimen/spacing_20"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wn_iv_more"
+                android:layout_marginLeft="@dimen/spacing_20"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rlTextTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/llTextFunction"
+            android:gravity="center_vertical"
+            android:padding="@dimen/spacing_5"
+            android:background="@drawable/shape_bottom_comment"
+            android:layout_toStartOf="@id/llTextFunction">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_1"
+                android:layout_marginLeft="@dimen/spacing_5"
+                android:textSize="@dimen/font_smaller"
+                android:text="写跟帖"/>
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wn_iv_smile"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlEdit"
+        android:visibility="gone"
+        android:padding="@dimen/spacing_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvSend"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_5"
+            android:text="发送"/>
+        <com.vanniktech.emoji.EmojiEditText
+            android:id="@+id/emojiEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionSend"
+            android:textSize="@dimen/font_small"
+            android:layout_toLeftOf="@+id/tvSend"
+            android:layout_marginRight="@dimen/spacing_20"
+            android:background="@drawable/shape_bottom_comment"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="3"/>
+
+        <ImageView
+            android:id="@+id/ivSmile"
+            android:layout_below="@id/tvSend"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/spacing_20"
+            android:layout_marginLeft="@dimen/spacing_20"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/wn_iv_smile"/>
+        <TextView
+            android:id="@+id/tvSmile"
+            android:layout_below="@id/tvSend"
+            android:layout_marginTop="@dimen/spacing_20"
+            android:layout_toRightOf="@id/ivSmile"
+            android:layout_marginLeft="@dimen/spacing_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="表情"
+            android:textColor="@color/gray_1"
+            android:textSize="@dimen/font_small"/>
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/ejTextView"
+            android:layout_alignTop="@id/ivSmile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+        <TextView
+            android:layout_toLeftOf="@id/ejTextView"
+            android:layout_alignTop="@id/ivSmile"
+            android:layout_marginRight="@dimen/spacing_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="常用:"
+            android:textColor="@color/gray_1"
+            android:textSize="@dimen/font_small"/>
+    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

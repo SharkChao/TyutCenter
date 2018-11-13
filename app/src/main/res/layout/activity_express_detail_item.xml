@@ -12,5 +12,5 @@
         android:scaleType="fitXY"
         android:layout_marginRight="@dimen/spacing_5"
         android:layout_marginTop="@dimen/spacing_5"
-        android:background="@mipmap/iv_default_news2"/>
+        android:background="@mipmap/iv_default_news"/>
 </LinearLayout>

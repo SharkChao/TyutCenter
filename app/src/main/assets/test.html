@@ -1,0 +1,146 @@
+﻿<html>
+<head>
+</head>
+<script>
+
+    var _mapframe
+    document.addEventListener("fullscreenchange", function (e) {
+        console.log("fullscreenchange", e);
+    });
+    document.addEventListener("mozfullscreenchange", function (e) {
+        console.log("mozfullscreenchange ", e);
+    });
+    document.addEventListener("webkitfullscreenchange", function (e) {
+        console.log("webkitfullscreenchange", e);
+    });
+    document.addEventListener("msfullscreenchange", function (e) {
+        console.log("msfullscreenchange", e);
+    });
+
+    function send() {
+        window.frames[0].postMessage(document.getElementById("txt_send").value, '*');
+    }
+
+    function sendMsg(msg) {
+        document.getElementById("txt_receive").value += "发送" + msg + "\r\n";
+        window.frames[0].postMessage(msg, '*');
+    }
+
+    window.onload = function () {
+        _mapframe = document.getElementById("mapFrame");
+        connectMap();
+
+        if (!/*@cc_on!@*/0) { //if not IE
+            _mapframe.onload = function () {
+                console.log("框架加载完毕");
+            };
+        } else {
+            _mapframe.onreadystatechange = function () {//ie
+                if (_mapframe.readyState == "complete") {
+                    console.log("框架加载完毕");
+                }
+            };
+        }
+    }
+
+    window.onresize = function () {
+        if (!isFullscreen()) {
+            _mapframe.width = "880";
+            _mapframe.height = "740";
+        }
+    }
+
+    function connectMap() {
+        _mapframe.src = document.getElementById("sel_url").value;
+    }
+
+
+    function fullScreenClick(obj) {
+        if (isFullscreen()) {
+            obj.value = "退出全屏";
+            exitFullScreen();
+        } else {
+            obj.value = "全屏";
+            fullScreen();
+        }
+    }
+
+
+    //全屏
+    function fullScreen() {
+        if (!isFullscreen()) {
+            var elem = document.getElementById("div_map");
+            if (elem.webkitRequestFullScreen) {
+                elem.webkitRequestFullScreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.requestFullScreen) {
+                elem.requestFullscreen();
+            } else {
+                console.log("浏览器不支持全屏API或已被禁用");
+            }
+            _mapframe.width = document.body.clientWidth;
+            _mapframe.height = "100%";
+        }
+    }
+
+    //退出全屏
+    function exitFullScreen() {
+        if (isFullscreen()) {
+            var elem = document.getElementById("div_map");
+            if (elem.webkitCancelFullScreen) {
+                elem.webkitCancelFullScreen();
+            } else if (elem.mozCancelFullScreen) {
+                elem.mozCancelFullScreen();
+            } else if (elem.cancelFullScreen) {
+                elem.cancelFullScreen();
+            } else if (elem.exitFullscreen) {
+                elem.exitFullscreen();
+            } else {
+                console.log("浏览器不支持全屏API或已被禁用");
+            }
+        }
+    }
+
+    //判断当前是否全屏
+    function isFullscreen() {
+        return (document.fullscreenElement ||
+           document.msFullscreenElement ||
+           document.mozFullScreenElement ||
+           document.webkitFullscreenElement || false) !== false;
+    }
+
+    //var readWatcher = setInterval(function(){if($("#_JS_TREE_0_0_1_2_0_text"}.attr("class")=="complete"){window.clearInterval(readWatcher);alert("1");}else{console.log("not yet")}},1000)
+    //sendMsg("{\"msgType\":\"registAPI\",\"options\":{\"hideMapSelector\":true,\"showFullIcon\":false}}")
+    window.addEventListener("message", function (event) {
+        document.getElementById("txt_receive").value += event.data + "\r\n";
+        document.getElementById("div_Info").innerHTML = "信息卡： \r\n" + event.data;
+    }, false);
+
+</script>
+<body>
+    <div style="width: 100%;">
+        <div style="width: 880px; float: left;">
+            <select id="sel_url">
+                <option value="http://172.16.1.24:8081/Monitor/Monitor">172.16.1.24</option>
+                <option value="http://172.16.1.112:8010/Monitor/Monitor">172.16.1.112</option>
+                <option value="http://666666.xicp.io:92/Monitor/Monitor" selected="selected">666666.xicp.io</option>
+            </select>
+            <!--<input type="text" id="txt_url" value="http://172.16.5.11:8081/Monitor/Monitor" style="width: 250px;"/>-->
+            <input type="button" value="连接地图" onclick="connectMap()" />
+            <input type="button" value="全屏" id="b_ful" onclick="fullScreen()" />
+            <div id="div_map">
+                <div id="div_Info" style="position: absolute;  left: 100px; top: 100px; display: none; background-color: aqua;">信息卡在这里</div>
+                <iframe src="" allowfullscreen="true" allowtransparency="true" id="mapFrame" style="margin-top: 10px;" width="880" height="740" frameborder="0"></iframe>
+            </div>
+        </div>
+        <div style="overflow: hidden;">
+            <input type="button" id="b_reg" value="注册" style="margin-left:10px;" onclick='sendMsg("{\"msgType\":\"registAPI\",\"options\":{\"showFullIcon\":false}}")' />
+            <input type="button" id="b_pos" value="点名" onclick='sendMsg("{\"msgType\":\"position\",\"mac\":\"34\",\"operationId\":\"1\"}")' />
+            <input type="button" id="b_changeMap" value="切换地图" onclick='sendMsg("{\"msgType\":\"changeMap\",\"mapId\":\"1\",\"operationId\":\"1\"}")' />
+            <input type="text" id="txt_send" style="margin-left: 10px; margin-right: 10px; width: 300px;" /><input type="button" id="b_send" value="发送" onclick="send()" />
+            <textarea style="width: 100%; height: 740px; margin: 10px 10px;" id="txt_receive"></textarea>
+        </div>
+    </div>
+</body>
+</html>

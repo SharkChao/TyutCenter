@@ -6,14 +6,17 @@ public class Comment implements MultiItemEntity {
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_HIDE = 1;
     private String id;
+    private String message_id;
+    private String date;
+    private String content;
+    private int praise_num;//点赞人数
+    private int view_type;
+
+    private String user_id;
+    private String url;
     private String nick_name;
     private String location;
     private String phone_type;
-    private String date;
-    private String content;
-    private String url;
-    private int praise_num;
-    private int view_type;
 
 
     public String getId() {
@@ -91,5 +94,21 @@ public class Comment implements MultiItemEntity {
 
     public void setView_type(int view_type) {
         this.view_type = view_type;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(String message_id) {
+        this.message_id = message_id;
     }
 }
