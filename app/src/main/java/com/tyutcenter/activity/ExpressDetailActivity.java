@@ -67,7 +67,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
         setCenterTitle("");
         isShowLeft(true);
         setLeftDefault();
-        setRightTitle("200跟帖", new View.OnClickListener() {
+        setRightTitle("暂无跟帖", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommentActivity.startCommentActivity(ExpressDetailActivity.this);
@@ -117,7 +117,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
             mTvContent.setVisibility(View.GONE);
         }
         mAdapter.setNewData(Arrays.asList(mMessage.getImages()));
-
+        getCallbacks().getCommentCount(mMessage.getId()+"");
     }
 
 
@@ -180,6 +180,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
                 comment.setDate(sf.format(new Date()));
                 comment.setUser_id(UserData.getUser().getId());
                 getCallbacks().createComment(comment);
+                hideRLInput();
             }
         });
     }
@@ -196,6 +197,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
             if (mEmojiPopup.isShowing()){
                 mEmojiPopup.dismiss();
             }
+            mEmojiEditText.setText("");
         }
     }
     private void showRLInput(){
@@ -287,6 +289,13 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
 
     @Override
     public void createComment(Result result) {
+        getCallbacks().getCommentCount(mMessage.getId()+"");
+    }
 
+    @Override
+    public void getCommentCount(Result result) {
+        if (result != null){
+            setRightTitle(result.getCode()+"跟帖");
+        }
     }
 }

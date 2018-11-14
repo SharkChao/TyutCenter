@@ -60,4 +60,6 @@ public interface ApiService {
     Observable<TestResult>test(@Body Test test);
     @POST("comment/createComment")
     Observable<HttpResult<Result>>createComment(@Body Comment comment);
+    @GET("comment/getCommentCount")
+    Observable<HttpResult<Result>>getCommentCount(@Query("message_id")String message_id);
 }

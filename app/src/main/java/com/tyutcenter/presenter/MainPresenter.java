@@ -43,6 +43,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
     //获取数据之后回调
     public interface MainUiCallback{
+        void getCommentCount(String message_id);
         void createComment(Comment comment);
         void getExpressPageTitle();
         void getExpressMessage(int index,int msg_type_id);
@@ -59,6 +60,26 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     @Override
     protected MainUiCallback createUiCallbacks(final MainUi ui) {
         return new MainUiCallback() {
+            @Override
+            public void getCommentCount(String message_id) {
+                if (ui instanceof ExpressDetailUi){
+                    mApiService.getCommentCount(message_id)
+                            .map(new HttpResultFunc<Result>())
+                            .compose(MainPresenter.this.<Result>applySchedulers())
+                            .subscribe(new RequestCallBack<Result>() {
+                                @Override
+                                public void onResponse(Result response) {
+                                    ((ExpressDetailUi) ui).getCommentCount(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
             @Override
             public void createComment(Comment comment) {
                 if (ui instanceof ExpressDetailUi){
@@ -294,6 +315,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     }
     public interface ExpressDetailUi extends MainUi{
         void createComment(Result result);
+        void getCommentCount(Result result);
     }
 
 }
