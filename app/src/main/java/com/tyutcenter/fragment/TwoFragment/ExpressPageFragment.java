@@ -176,5 +176,7 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
         super.onResponseError(error);
         mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.loadMoreEnd();
+        mEmptyView.setMessage(error.getMessage());
+        mEmptyView.setType(EmptyView.TYPE_ERROR);
     }
 }

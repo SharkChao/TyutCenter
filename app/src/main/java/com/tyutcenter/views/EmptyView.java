@@ -29,6 +29,7 @@ public class EmptyView extends LinearLayout {
     private ImageView ivEmpty;
     private ProgressBar progressBar;
     private ConstraintLayout plLayout;
+    private String mType;
 
     public EmptyView(Context context) {
         super(context);
@@ -54,6 +55,7 @@ public class EmptyView extends LinearLayout {
     }
 
     public  void setType(String type){
+        mType = type;
         if (type.equals(TYPE_LOADING)){
             ivEmpty.setVisibility(View.GONE);
             tvTitle.setVisibility(View.GONE);
@@ -79,4 +81,7 @@ public class EmptyView extends LinearLayout {
         }
     }
 
+    public String getType() {
+        return mType;
+    }
 }

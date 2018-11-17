@@ -1,7 +1,5 @@
 package com.tyutcenter.network;
 
-import android.util.Log;
-
 import com.tyutcenter.model.ResponseError;
 
 import io.reactivex.Observer;
@@ -19,7 +17,8 @@ public abstract class RequestCallBack<T> implements Observer<T> {
         if (throwable instanceof ResponseError) {
             onFailure((ResponseError) throwable);
         } else {
-            Log.e(TAG, "throwable isn't instance of ResponseError");
+            ResponseError responseError = new ResponseError(0,throwable.getMessage());
+            onFailure(responseError);
         }
     }
 

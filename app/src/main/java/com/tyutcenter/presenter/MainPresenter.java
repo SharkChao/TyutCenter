@@ -3,6 +3,7 @@ package com.tyutcenter.presenter;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.base.BasePresenter;
 import com.tyutcenter.model.Comment;
+import com.tyutcenter.model.Floor;
 import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.News;
@@ -43,6 +44,8 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
     //获取数据之后回调
     public interface MainUiCallback{
+        void getHotComment(String message_id);
+        void getAllComment(String message_id);
         void getCommentCount(String message_id);
         void createComment(Comment comment);
         void getExpressPageTitle();
@@ -60,6 +63,48 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     @Override
     protected MainUiCallback createUiCallbacks(final MainUi ui) {
         return new MainUiCallback() {
+            @Override
+            public void getHotComment(String message_id) {
+                if (ui instanceof CommentUi){
+                mApiService.getHotComment(message_id)
+                         .map(new HttpResultFunc<List<Floor>>())
+                        .compose(MainPresenter.this.<List<Floor>>applySchedulers())
+                        .subscribe(new RequestCallBack<List<Floor>>() {
+                            @Override
+                            public void onResponse(List<Floor> response) {
+                                ((CommentUi) ui).getHotComment(response);
+                            }
+
+                            @Override
+                            public void onFailure(ResponseError error) {
+                                ui.onResponseError(error);
+                            }
+                        });
+
+                }
+            }
+
+            @Override
+            public void getAllComment(String message_id) {
+                if (ui instanceof CommentUi){
+                    mApiService.getAllComment(message_id)
+                            .map(new HttpResultFunc<List<Floor>>())
+                            .compose(MainPresenter.this.<List<Floor>>applySchedulers())
+                            .subscribe(new RequestCallBack<List<Floor>>() {
+                                @Override
+                                public void onResponse(List<Floor> response) {
+                                    ((CommentUi) ui).getAllComment(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+
+                }
+            }
+
             @Override
             public void getCommentCount(String message_id) {
                 if (ui instanceof ExpressDetailUi){
@@ -82,7 +127,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
             @Override
             public void createComment(Comment comment) {
-                if (ui instanceof ExpressDetailUi){
+                if (ui instanceof ExpressDetailUi || ui instanceof CommentUi){
                     mApiService.createComment(comment)
                             .map(new HttpResultFunc<Result>())
                             .compose(MainPresenter.this.<Result>applySchedulers())
@@ -316,6 +361,11 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     public interface ExpressDetailUi extends MainUi{
         void createComment(Result result);
         void getCommentCount(Result result);
+    }
+    public interface CommentUi extends MainUi{
+        void getAllComment(List<Floor>list);
+        void getHotComment(List<Floor>list);
+        void createComment(Result result);
     }
 
 }

@@ -13,10 +13,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tyutcenter.R;
@@ -30,8 +28,7 @@ import com.tyutcenter.model.Result;
 import com.tyutcenter.presenter.MainPresenter;
 import com.tyutcenter.utils.CommonUtil;
 import com.tyutcenter.utils.DensityUtil;
-import com.vanniktech.emoji.EmojiEditText;
-import com.vanniktech.emoji.EmojiPopup;
+import com.tyutcenter.views.EmojiView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,18 +43,10 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
     private TextView mTvTime;
     private TextView mTvTitle;
     private TextView mTvContent;
-    private RelativeLayout rlTextTv;
-    private RelativeLayout rlText;
-    private RelativeLayout rlEdit;
     private RecyclerView mRvList;
     private ExpressDetailAdapter mAdapter;
     private NestedScrollView mScrollView;
-    private EmojiEditText mEmojiEditText;
-    private EmojiPopup mEmojiPopup;
-    private InputMethodManager mService;
-    private TextView mTvSmile;
-    private ImageView mIvSmile;
-    private TextView mtvSend;
+    private EmojiView mEmojiView;
 
 
     @SuppressLint("NewApi")
@@ -70,7 +59,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
         setRightTitle("暂无跟帖", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentActivity.startCommentActivity(ExpressDetailActivity.this);
+                CommentActivity.startCommentActivity(ExpressDetailActivity.this,mMessage.getId()+"");
             }
         });
        mMessage = (Message) getIntent().getExtras().getSerializable("msg");
@@ -78,22 +67,15 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
 
     @Override
     public void initView(ViewDataBinding viewDataBinding) {
-        mTvSmile = findViewById(R.id.tvSmile);
-        mtvSend = findViewById(R.id.tvSend);
-        mIvSmile = findViewById(R.id.ivSmile);
         mTvName = findViewById(R.id.tvName);
         mTvTime = findViewById(R.id.tvTime);
         mTvContent = findViewById(R.id.tvContent);
         mTvTitle = findViewById(R.id.tvTitle);
         mRvList = findViewById(R.id.rvList);
-        rlEdit = findViewById(R.id.rlEdit);
-        rlText = findViewById(R.id.rlText);
-        rlTextTv = findViewById(R.id.rlTextTv);
         mScrollView = findViewById(R.id.scrollView);
-        mEmojiEditText = findViewById(R.id.emojiEditText);
+        mEmojiView = findViewById(R.id.emojiView);
         mTvTime.setFocusableInTouchMode(true);
         mTvTime.requestFocus();
-        mEmojiPopup = EmojiPopup.Builder.fromRootView(findViewById(R.id.rootView)).build(mEmojiEditText);
         mRvList.setLayoutManager(new GridLayoutManager(this,3){
             @Override
             public boolean canScrollVertically() {
@@ -103,7 +85,6 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
         mAdapter = new ExpressDetailAdapter(R.layout.activity_express_detail_item);
         //第一次不需要进入加载更多的回调中
         mRvList.setAdapter(mAdapter);
-        mService = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -117,9 +98,13 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
             mTvContent.setVisibility(View.GONE);
         }
         mAdapter.setNewData(Arrays.asList(mMessage.getImages()));
-        getCallbacks().getCommentCount(mMessage.getId()+"");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCallbacks().getCommentCount(mMessage.getId()+"");
+    }
 
     @SuppressLint("NewApi")
     @Override
@@ -132,13 +117,13 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
                 }else {
                    setSmallAnimation();
                 }
-                hideRLInput();
+                mEmojiView.hideRLInput();
             }
         });
         mScrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                hideRLInput();
+                mEmojiView.hideRLInput();
                 return false;
             }
         });
@@ -150,62 +135,20 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
             }
         });
 
-        rlTextTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               showRLInput();
-            }
-        });
 
-        mTvSmile.setOnClickListener(new View.OnClickListener() {
+        mEmojiView.registerSendListener(new EmojiView.onSendClickListenr() {
             @Override
-            public void onClick(View v) {
-                mEmojiPopup.toggle();
-            }
-        });
-        mIvSmile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEmojiPopup.toggle();
-            }
-        });
-        mtvSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String value = mEmojiEditText.getText().toString();
+            public void onclick(View view, String content) {
                 Comment comment = new Comment();
                 comment.setMessage_id(mMessage.getId()+"");
-                comment.setContent(value);
+                comment.setContent(content);
                 SimpleDateFormat sf=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
                 comment.setDate(sf.format(new Date()));
                 comment.setUser_id(UserData.getUser().getId());
                 getCallbacks().createComment(comment);
-                hideRLInput();
             }
         });
-    }
-    /**
-     * 若软键盘或表情键盘弹起，点击上端空白处应该隐藏输入法键盘
-     *
-     * @return 会隐藏输入法键盘的触摸事件监听器
-     */
-    private void hideRLInput(){
-        if (rlEdit.getVisibility() == View.VISIBLE){
-            rlEdit.setVisibility(View.GONE);
-            rlText.setVisibility(View.VISIBLE);
-            mService.hideSoftInputFromWindow(rlEdit.getWindowToken(),0);
-            if (mEmojiPopup.isShowing()){
-                mEmojiPopup.dismiss();
-            }
-            mEmojiEditText.setText("");
-        }
-    }
-    private void showRLInput(){
-        rlText.setVisibility(View.GONE);
-        rlEdit.setVisibility(View.VISIBLE);
-        mEmojiEditText.setFocusableInTouchMode(true);
-        mEmojiEditText.requestFocus();
-        mService.showSoftInput(mEmojiEditText,0);
+
     }
     public static void startExpressDetailActivity(Context context,Message message){
         Intent intent = new Intent(context,ExpressDetailActivity.class);
@@ -290,6 +233,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
     @Override
     public void createComment(Result result) {
         getCallbacks().getCommentCount(mMessage.getId()+"");
+        Toast.makeText(this, "恭喜你,评论成功!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

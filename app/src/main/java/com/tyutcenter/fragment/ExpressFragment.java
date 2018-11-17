@@ -3,6 +3,7 @@ package com.tyutcenter.fragment;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.view.View;
 
 import com.tyutcenter.R;
 import com.tyutcenter.adapter.ExpressPagerAdapter;
@@ -11,8 +12,8 @@ import com.tyutcenter.base.BaseFragment;
 import com.tyutcenter.databinding.FragmentExpressBinding;
 import com.tyutcenter.model.MessageType;
 import com.tyutcenter.model.ResponseError;
-import com.tyutcenter.model.Test;
 import com.tyutcenter.presenter.MainPresenter;
+import com.tyutcenter.views.EmptyView;
 import com.tyutcenter.views.lazyviewpager.LazyViewPager;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class ExpressFragment extends BaseFragment<MainPresenter.MainUiCallback> 
     private TabLayout mTabLayout;
     private LazyViewPager mViewPager;
     private ExpressPagerAdapter mExpressPagerAdapter;
+    private EmptyView mEmptyView;
 
     @Override
     protected void initTitle() {
@@ -38,6 +40,17 @@ public class ExpressFragment extends BaseFragment<MainPresenter.MainUiCallback> 
         FragmentExpressBinding binding = (FragmentExpressBinding) viewDataBinding;
         mTabLayout = binding.tabLayoutExpress;
         mViewPager = binding.viewPager;
+        mEmptyView = binding.emptyView;
+        mEmptyView.setType(EmptyView.TYPE_LOADING);
+        mEmptyView.setRefreshListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!EmptyView.TYPE_LOADING.equals(mEmptyView.getType())){
+                    mEmptyView.setType(EmptyView.TYPE_LOADING);
+                    getCallbacks().getExpressPageTitle();
+                }
+            }
+        });
     }
 
     @Override
@@ -45,18 +58,8 @@ public class ExpressFragment extends BaseFragment<MainPresenter.MainUiCallback> 
         mExpressPagerAdapter = new ExpressPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mExpressPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager,true);
-        getCallbacks().getExpressPageTitle();
 
-        Test test = new Test();
-        test.setMac("746838FEFF9FFD90");
-        test.setOfficeCode("1");
-        test.setOfficeName("急诊科");
-        test.setTargetGender("0");
-        test.setTargetBirthday("2018-4-9 12:00:00");
-        test.setTargetName("小李");
-        test.setTargetCode("1");
-        test.setTargetType("1");
-        getCallbacks().test(test);
+        getCallbacks().getExpressPageTitle();
     }
 
     @Override
@@ -77,10 +80,17 @@ public class ExpressFragment extends BaseFragment<MainPresenter.MainUiCallback> 
     @Override
     public void getMessageType(List<MessageType> list) {
         mExpressPagerAdapter.setTitles(list);
+        mEmptyView.setType(EmptyView.TYPE_NO_DATA);
+        mEmptyView.setVisibility(View.GONE);
+        mViewPager.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onResponseError(ResponseError error) {
         super.onResponseError(error);
+        mEmptyView.setType(EmptyView.TYPE_NO_DATA);
+        mEmptyView.setMessage(error.getMessage());
+        mEmptyView.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.GONE);
     }
 }

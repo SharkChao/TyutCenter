@@ -2,6 +2,7 @@ package com.tyutcenter.network;
 
 
 import com.tyutcenter.model.Comment;
+import com.tyutcenter.model.Floor;
 import com.tyutcenter.model.HttpResult;
 import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
@@ -62,4 +63,8 @@ public interface ApiService {
     Observable<HttpResult<Result>>createComment(@Body Comment comment);
     @GET("comment/getCommentCount")
     Observable<HttpResult<Result>>getCommentCount(@Query("message_id")String message_id);
+    @GET("comment/getAllComment")
+    Observable<HttpResult<List<Floor>>>getAllComment(@Query("message_id")String message_id);
+    @GET("comment/getHotComment")
+    Observable<HttpResult<List<Floor>>>getHotComment(@Query("message_id")String message_id);
 }

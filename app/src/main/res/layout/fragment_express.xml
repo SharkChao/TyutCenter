@@ -20,8 +20,14 @@
 
     <com.tyutcenter.views.lazyviewpager.LazyViewPager
         android:id="@+id/viewPager"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <com.tyutcenter.views.EmptyView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.tyutcenter.views.EmptyView>
 
 </LinearLayout>
 </layout>

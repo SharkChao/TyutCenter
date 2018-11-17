@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tyutcenter.R;
-import com.tyutcenter.adapter.CommentAdapter;
+import com.tyutcenter.adapter.FloorAdapter;
 import com.tyutcenter.model.Comment;
 import com.tyutcenter.utils.CommentFloorItemDecoration;
 import com.tyutcenter.utils.CommonUtil;
@@ -33,7 +33,7 @@ public class FloorView extends NestedScrollView{
     private CommentRecyclerView mRvList;
     private int maxComment = 5;
     private boolean isExpend;
-    private CommentAdapter mAdapter;
+    private FloorAdapter mAdapter;
     private List<Comment> mCommentList = new ArrayList<>();
 
 
@@ -69,7 +69,7 @@ public class FloorView extends NestedScrollView{
             }
         });
         mRvList.addItemDecoration(new CommentFloorItemDecoration(getContext()));
-        mAdapter = new CommentAdapter(mCommentList);
+        mAdapter = new FloorAdapter(mCommentList);
         mRvList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

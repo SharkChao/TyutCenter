@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="greyTextStyleNormal">
-        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textColor">@color/grey_text_color_normal</item>
     </style>
 </resources>

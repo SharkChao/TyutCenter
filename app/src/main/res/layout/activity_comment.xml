@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.tyutcenter.views.FloorView
-        android:id="@+id/flView"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/spacing_30"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/wn_iv_hot_comment"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvHot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.tyutcenter.views.FloorView>
-</LinearLayout>
+    </android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/wn_iv_new_comment"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+    <com.tyutcenter.views.EmojiView
+        android:id="@+id/emojiView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp">
+    </com.tyutcenter.views.EmojiView>
+</RelativeLayout>
