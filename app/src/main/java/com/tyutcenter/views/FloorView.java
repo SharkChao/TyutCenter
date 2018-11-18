@@ -17,8 +17,12 @@ import com.tyutcenter.adapter.FloorAdapter;
 import com.tyutcenter.model.Comment;
 import com.tyutcenter.utils.CommentFloorItemDecoration;
 import com.tyutcenter.utils.CommonUtil;
+import com.tyutcenter.utils.TimeUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FloorView extends NestedScrollView{
@@ -86,9 +90,15 @@ public class FloorView extends NestedScrollView{
             Comment comment = list.get(list.size()-1);
             Glide.with(getContext()).load(comment.getUrl()).into(mIvHead);
             mTvName.setText(CommonUtil.isStrEmpty(comment.getNick_name())?"未知":comment.getNick_name());
-            mTvDate.setText(CommonUtil.isStrEmpty(comment.getDate())?"未知":comment.getDate());
-            mTvLocation.setText(CommonUtil.isStrEmpty(comment.getLocation())?"未知":comment.getLocation());
-            mTvPhoneType.setText(CommonUtil.isStrEmpty(comment.getPhone_type())?"未知":comment.getPhone_type());
+            SimpleDateFormat sf=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+            try {
+                Date date = sf.parse(CommonUtil.isStrEmpty(comment.getDate()) ? "2000年01月01日 01时01分01秒" : comment.getDate());
+                mTvDate.setText(TimeUtil.getTimeFormatText(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            mTvLocation.setText(CommonUtil.isStrEmpty(comment.getLocation())?"山西省太原市":comment.getLocation());
+            mTvPhoneType.setText(CommonUtil.isStrEmpty(comment.getPhone_type())?"国产手机":comment.getPhone_type());
             mTvContent.setText(CommonUtil.isStrEmpty(comment.getContent())?"未知":comment.getContent());
             mTvPraise.setText(CommonUtil.isStrEmpty(comment.getPraise_num()+"")?"未知":comment.getPraise_num()+"");
             if (list != null && list.size() > 1){

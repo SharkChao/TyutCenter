@@ -1,5 +1,7 @@
 package com.tyutcenter.adapter;
 
+import android.util.Log;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tyutcenter.R;
@@ -31,12 +33,13 @@ public class FloorAdapter extends BaseMultiItemQuickAdapter<Comment,BaseViewHold
         switch (helper.getItemViewType()){
             case Comment.TYPE_NORMAL:
                 helper.setText(R.id.tvName, CommonUtil.isStrEmpty(item.getNick_name())?"未知":item.getNick_name());
-                helper.setText(R.id.tvLocation,CommonUtil.isStrEmpty(item.getLocation())?"未知":item.getLocation());
-                helper.setText(R.id.tvPhoneType,CommonUtil.isStrEmpty(item.getPhone_type())?"未知":item.getPhone_type());
+                helper.setText(R.id.tvLocation,CommonUtil.isStrEmpty(item.getLocation())?"山西省太原市":item.getLocation());
+                helper.setText(R.id.tvPhoneType,CommonUtil.isStrEmpty(item.getPhone_type())?"国产手机":item.getPhone_type());
                 SimpleDateFormat sf=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
                 try {
                     Date date = sf.parse(CommonUtil.isStrEmpty(item.getDate()) ? "2000年01月01日 01时01分01秒" : item.getDate());
                     helper.setText(R.id.tvDate, TimeUtil.getTimeFormatText(date));
+                    Log.e("tag",TimeUtil.getTimeFormatText(date));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

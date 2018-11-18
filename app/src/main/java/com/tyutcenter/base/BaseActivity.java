@@ -21,6 +21,7 @@ import com.tyutcenter.R;
 import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.model.ResponseError;
 import com.tyutcenter.presenter.MainPresenter;
+import com.tyutcenter.utils.ActivityStack;
 import com.tyutcenter.utils.DensityUtil;
 import com.tyutcenter.views.LoadingView;
 
@@ -49,6 +50,7 @@ public abstract class BaseActivity<UC> extends AppCompatActivity implements Base
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityStack.create().add(this);
         currentActivity = this;
         getSupportActionBar().hide();
         setToolbar();
@@ -286,6 +288,7 @@ public abstract class BaseActivity<UC> extends AppCompatActivity implements Base
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityStack.create().remove(this);
         ((BasePresenter)mMainController).detachUi(this);
     }
 }

@@ -80,6 +80,8 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/grey_text_color_normal"
             android:padding="@dimen/spacing_5"
             android:text="发送"/>
         <com.vanniktech.emoji.EmojiEditText
@@ -119,6 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:text="😄🙈😀😗😍"
             />
         <TextView
             android:layout_toLeftOf="@id/ejTextView"

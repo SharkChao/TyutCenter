@@ -3,8 +3,10 @@ package com.tyutcenter.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -38,10 +40,12 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
     private EmptyView mEmptyViewHot;
     private EmptyView mEmptyViewAll;
     private EmojiView mEmojiView;
+    private NestedScrollView mScrollView;
 
     @Override
     public void initTitle() {
         isShowToolBar(true);
+        setCenterTitle("评论");
     }
 
     @Override
@@ -95,6 +99,13 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
                 comment.setDate(sf.format(new Date()));
                 comment.setUser_id(UserData.getUser().getId());
                 getCallbacks().createComment(comment);
+            }
+        });
+        mScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mEmojiView.hideRLInput();
+                return false;
             }
         });
     }
