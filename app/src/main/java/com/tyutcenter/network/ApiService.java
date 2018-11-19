@@ -2,6 +2,7 @@ package com.tyutcenter.network;
 
 
 import com.tyutcenter.model.Comment;
+import com.tyutcenter.model.CommentPraise;
 import com.tyutcenter.model.Floor;
 import com.tyutcenter.model.HttpResult;
 import com.tyutcenter.model.Message;
@@ -64,7 +65,10 @@ public interface ApiService {
     @GET("comment/getCommentCount")
     Observable<HttpResult<Result>>getCommentCount(@Query("message_id")String message_id);
     @GET("comment/getAllComment")
-    Observable<HttpResult<List<Floor>>>getAllComment(@Query("message_id")String message_id);
+    Observable<HttpResult<List<Floor>>>getAllComment(@Query("message_id")String message_id,@Query("user_id")String user_id);
     @GET("comment/getHotComment")
-    Observable<HttpResult<List<Floor>>>getHotComment(@Query("message_id")String message_id);
+    Observable<HttpResult<List<Floor>>>getHotComment(@Query("message_id")String message_id,@Query("user_id")String user_id);
+    @POST("comment/createPraise")
+    Observable<HttpResult<Result>>createPraise(@Body CommentPraise commentPraise);
+
 }

@@ -17,8 +17,9 @@ public class Comment implements MultiItemEntity {
     private String nick_name;
     private String location;
     private String phone_type;
+    private String praise_me_id;
 
-
+    private String floor_id;
     public String getId() {
         return id;
     }
@@ -110,5 +111,21 @@ public class Comment implements MultiItemEntity {
 
     public void setMessage_id(String message_id) {
         this.message_id = message_id;
+    }
+
+    public String getPraise_me_id() {
+        return praise_me_id;
+    }
+
+    public void setPraise_me_id(String praise_me_id) {
+        this.praise_me_id = praise_me_id;
+    }
+
+    public String getFloor_id() {
+        return floor_id;
+    }
+
+    public void setFloor_id(String floor_id) {
+        this.floor_id = floor_id;
     }
 }

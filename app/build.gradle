@@ -115,5 +115,6 @@ dependencies {
     implementation files('libs/KJFrameForAndroid_v2.234.jar')
     //表情库
     implementation 'com.vanniktech:emoji-ios:0.5.1'
-    implementation 'com.youth.banner:banner:1.4.10'  //最新版本
+    implementation 'com.youth.banner:banner:1.4.10'
+    compile 'com.github.zyyoona7:EasyPopup:1.1.2'
 }

@@ -16,12 +16,15 @@ import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.data.UserData;
 import com.tyutcenter.model.Comment;
+import com.tyutcenter.model.CommentPraise;
 import com.tyutcenter.model.Floor;
 import com.tyutcenter.model.ResponseError;
 import com.tyutcenter.model.Result;
+import com.tyutcenter.model.User;
 import com.tyutcenter.presenter.MainPresenter;
 import com.tyutcenter.views.EmojiView;
 import com.tyutcenter.views.EmptyView;
+import com.tyutcenter.views.FloorView;
 import com.tyutcenter.views.RecycleViewDivider;
 
 import java.text.SimpleDateFormat;
@@ -41,6 +44,7 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
     private EmptyView mEmptyViewAll;
     private EmojiView mEmojiView;
     private NestedScrollView mScrollView;
+    private Comment mCurrentComment;
 
     @Override
     public void initTitle() {
@@ -53,6 +57,7 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
         rvAll = findViewById(R.id.rvAll);
         rvHot = findViewById(R.id.rvHot);
         mEmojiView = findViewById(R.id.emojiView);
+        mScrollView = findViewById(R.id.scrollView);
         mEmptyViewAll = new EmptyView(this);
         mEmptyViewHot = new EmptyView(this);
         mEmptyViewAll.setType(EmptyView.TYPE_LOADING);
@@ -62,8 +67,15 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
     @Override
     public void initData() {
         mMessage_id = getIntent().getStringExtra(TAG_MESSAGE_ID);
-        getCallbacks().getAllComment(mMessage_id);
-        getCallbacks().getHotComment(mMessage_id);
+        getCommentByServer();
+    }
+
+    private void getCommentByServer(){
+        User user = UserData.getUser();
+        if (user != null){
+            getCallbacks().getAllComment(mMessage_id,user.getId());
+            getCallbacks().getHotComment(mMessage_id,user.getId());
+        }
     }
 
     @Override
@@ -98,6 +110,9 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
                 SimpleDateFormat sf=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
                 comment.setDate(sf.format(new Date()));
                 comment.setUser_id(UserData.getUser().getId());
+                if (mCurrentComment != null){
+                    comment.setFloor_id(mCurrentComment.getFloor_id());
+                }
                 getCallbacks().createComment(comment);
             }
         });
@@ -108,7 +123,46 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
                 return false;
             }
         });
+        rvHot.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mEmojiView.hideRLInput();
+                return false;
+            }
+        });
+        rvAll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mEmojiView.hideRLInput();
+                return false;
+            }
+        });
+        FloorView.OnPraiseClickListener onPraiseClickListener = new FloorView.OnPraiseClickListener() {
+            @Override
+            public void onPraise(Comment comment) {
+                showProgressDialog();
+                CommentPraise commentPraise = new CommentPraise();
+                commentPraise.setComment_id(comment.getId());
+                commentPraise.setMessage_id(comment.getMessage_id());
+                commentPraise.setUser_id(UserData.getUser().getId());
+                getCallbacks().createPraise(commentPraise);
+            }
+        };
+        FloorView.onCommentClickListener onCommentClickListener = new FloorView.onCommentClickListener() {
+            @Override
+            public void onComment(Comment comment) {
+                mEmojiView.showRLInput();
+                mEmojiView.setHintText("回复"+comment.getNick_name()+":");
+                mCurrentComment = comment;
+            }
+        };
+        mAllAdapter.registerPraiseListener(onPraiseClickListener);
+        mHotAdapter.registerPraiseListener(onPraiseClickListener);
+        mAllAdapter.registerCommentListener(onCommentClickListener);
+        mHotAdapter.registerCommentListener(onCommentClickListener);
     }
+
+
     public static void startCommentActivity(Context context,String message_id){
         Intent intent = new Intent(context,CommentActivity.class);
         intent.putExtra(TAG_MESSAGE_ID,message_id);
@@ -132,13 +186,26 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
     @Override
     public void createComment(Result result) {
         Toast.makeText(this, "恭喜你,评论成功!", Toast.LENGTH_SHORT).show();
-        getCallbacks().getAllComment(mMessage_id);
-        getCallbacks().getHotComment(mMessage_id);
+        getCommentByServer();
+    }
+
+    @Override
+    public void createPraise(Result result) {
+        if (result != null){
+            if (result.getCode() > 0){
+                Toast.makeText(this, "点赞成功!", Toast.LENGTH_SHORT).show();
+                getCommentByServer();
+            }else {
+                Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            hideProgressDialog();
+        }
     }
 
     @Override
     public void onResponseError(ResponseError error) {
         super.onResponseError(error);
+        hideProgressDialog();
         mEmptyViewHot.setType(EmptyView.TYPE_NO_DATA);
         mEmptyViewHot.setMessage(error.getMessage());
         mEmptyViewAll.setType(EmptyView.TYPE_NO_DATA);

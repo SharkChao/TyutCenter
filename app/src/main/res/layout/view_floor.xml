@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
    >
     <LinearLayout
+        android:id="@+id/llRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -93,6 +94,6 @@
         android:layout_below="@id/tvLocation"
         android:layout_marginLeft="20dp"
         android:text="这只是一个简单的评论"
-        android:layout_marginTop="@dimen/spacing_10"/>
+        android:paddingTop="@dimen/spacing_10"/>
     </LinearLayout>
 </merge>

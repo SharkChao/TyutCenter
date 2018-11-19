@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.tyutcenter.R;
 import com.vanniktech.emoji.EmojiEditText;
 import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.EmojiTextView;
 
 /**
  * 2018/11/17
@@ -21,8 +22,12 @@ import com.vanniktech.emoji.EmojiPopup;
  * 827623353@qq.com
  * https://github.com/sharkchao
  */
-public class EmojiView extends LinearLayout{
+public class EmojiView extends LinearLayout implements View.OnClickListener {
     private EmojiEditText mEmojiEditText;
+    private EmojiTextView mEmojiTextView1;
+    private EmojiTextView mEmojiTextView2;
+    private EmojiTextView mEmojiTextView3;
+    private EmojiTextView mEmojiTextView4;
     private EmojiPopup mEmojiPopup;
     private InputMethodManager mService;
     private TextView mTvSmile;
@@ -55,6 +60,10 @@ public class EmojiView extends LinearLayout{
         rlText = findViewById(R.id.rlText);
         rlTextTv = findViewById(R.id.rlTextTv);
         mEmojiEditText = findViewById(R.id.emojiEditText);
+        mEmojiTextView1 = findViewById(R.id.ejTextView1);
+        mEmojiTextView2 = findViewById(R.id.ejTextView2);
+        mEmojiTextView3 = findViewById(R.id.ejTextView3);
+        mEmojiTextView4 = findViewById(R.id.ejTextView4);
         mEmojiPopup = EmojiPopup.Builder.fromRootView(findViewById(R.id.rootView)).build(mEmojiEditText);
         mService = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -69,18 +78,27 @@ public class EmojiView extends LinearLayout{
             }
         });
 
+        mEmojiTextView1.setText("\uD83D\uDE04");
+        mEmojiTextView2.setText("\uD83D\uDE48");
+        mEmojiTextView3.setText("\uD83D\uDE17");
+        mEmojiTextView4.setText("\uD83D\uDE0D");
         mTvSmile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mEmojiPopup.toggle();
+                mTvSmile.setTextColor(mEmojiPopup.isShowing()?getResources().getColor(R.color.colorPrimary):getResources().getColor(R.color.gray_1));
+                mIvSmile.setImageDrawable(mEmojiPopup.isShowing()?getResources().getDrawable(R.mipmap.wn_iv_smile_red):getResources().getDrawable(R.mipmap.wn_iv_smile));
             }
         });
         mIvSmile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mEmojiPopup.toggle();
+                mTvSmile.setTextColor(mEmojiPopup.isShowing()?getResources().getColor(R.color.colorPrimary):getResources().getColor(R.color.gray_1));
+                mIvSmile.setImageDrawable(mEmojiPopup.isShowing()?getResources().getDrawable(R.mipmap.wn_iv_smile_red):getResources().getDrawable(R.mipmap.wn_iv_smile));
             }
         });
+
         mtvSend.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +109,11 @@ public class EmojiView extends LinearLayout{
                 }
             }
         });
+        mEmojiTextView1.setOnClickListener(this);
+        mEmojiTextView2.setOnClickListener(this);
+        mEmojiTextView3.setOnClickListener(this);
+        mEmojiTextView4.setOnClickListener(this);
+
     }
 
     /**
@@ -117,10 +140,37 @@ public class EmojiView extends LinearLayout{
         mService.showSoftInput(mEmojiEditText,0);
     }
 
+    public boolean isShow(){
+        return rlEdit.getVisibility() == VISIBLE;
+    }
+
     public void registerSendListener(onSendClickListenr listener){
         mSendListener = listener;
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ejTextView1:
+                mEmojiEditText.setText(mEmojiEditText.getText()+"\uD83D\uDE04");
+                break;
+            case R.id.ejTextView2:
+                mEmojiEditText.setText(mEmojiEditText.getText()+"\uD83D\uDE48");
+                break;
+            case R.id.ejTextView3:
+                mEmojiEditText.setText(mEmojiEditText.getText()+"\uD83D\uDE17");
+                break;
+            case R.id.ejTextView4:
+                mEmojiEditText.setText(mEmojiEditText.getText()+"\uD83D\uDE0D");
+                break;
+        }
+        mEmojiEditText.setSelection(mEmojiEditText.getText().length());
+    }
+
     public interface  onSendClickListenr{
         void onclick(View view,String content);
+    }
+    public void setHintText(String text){
+        mEmojiEditText.setHint(text);
     }
 }

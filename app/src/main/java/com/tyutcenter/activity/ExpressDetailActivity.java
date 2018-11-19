@@ -47,6 +47,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
     private ExpressDetailAdapter mAdapter;
     private NestedScrollView mScrollView;
     private EmojiView mEmojiView;
+    private int mCommentCount;
 
 
     @SuppressLint("NewApi")
@@ -131,7 +132,9 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                PhotoPreviewActivity.startPhotoPreview(ExpressDetailActivity.this, new ArrayList<String>( Arrays.asList(mMessage.getImages())),position);
+               if (!mEmojiView.isShow()){
+                   PhotoPreviewActivity.startPhotoPreview(ExpressDetailActivity.this, new ArrayList<String>( Arrays.asList(mMessage.getImages())),position);
+               }
             }
         });
 
@@ -188,7 +191,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                setRightTitle("共有200人参与跟帖");
+                setRightTitle("共有"+mCommentCount+"人参与跟帖");
             }
         });
         valueAnimator.start();
@@ -223,7 +226,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                setRightTitle("200跟帖");
+                setRightTitle(mCommentCount + "跟帖");
             }
         });
         valueAnimator.start();
@@ -239,6 +242,7 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
     @Override
     public void getCommentCount(Result result) {
         if (result != null){
+            mCommentCount = result.getCode();
             setRightTitle(result.getCode()+"跟帖");
         }
     }

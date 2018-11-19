@@ -23,6 +23,7 @@
         android:src="@mipmap/wn_iv_hot_comment"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvHot"
+        android:layout_marginTop="-20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
@@ -32,6 +33,7 @@
         android:src="@mipmap/wn_iv_new_comment"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvAll"
+        android:layout_marginTop="-20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>

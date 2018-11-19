@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/gray_dark"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="@dimen/spacing_5"
+    android:paddingBottom="@dimen/spacing_5">
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_small"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingRight="@dimen/spacing_10"
+        android:text="回复"/>
+    <ImageView
+        android:layout_width="@dimen/spacing_line"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/app_line_colors"/>
+    <TextView
+        android:id="@+id/tvPraise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingLeft="@dimen/spacing_10"
+        android:textSize="@dimen/font_small"
+        android:text="点赞"/>
+</LinearLayout>

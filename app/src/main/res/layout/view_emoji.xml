@@ -100,37 +100,70 @@
             android:id="@+id/ivSmile"
             android:layout_below="@id/tvSend"
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/spacing_20"
-            android:layout_marginLeft="@dimen/spacing_20"
+            android:paddingTop="@dimen/spacing_20"
+            android:paddingLeft="@dimen/spacing_20"
             android:layout_height="wrap_content"
             android:src="@mipmap/wn_iv_smile"/>
         <TextView
             android:id="@+id/tvSmile"
             android:layout_below="@id/tvSend"
-            android:layout_marginTop="@dimen/spacing_20"
+            android:paddingTop="@dimen/spacing_20"
             android:layout_toRightOf="@id/ivSmile"
-            android:layout_marginLeft="@dimen/spacing_5"
+            android:paddingLeft="@dimen/spacing_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="表情"
             android:textColor="@color/gray_1"
             android:textSize="@dimen/font_small"/>
         <com.vanniktech.emoji.EmojiTextView
-            android:id="@+id/ejTextView"
+            android:id="@+id/ejTextView1"
+            android:paddingTop="@dimen/spacing_20"
             android:layout_alignTop="@id/ivSmile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/font_large"
+            android:paddingRight="@dimen/spacing_5"
             android:layout_alignParentRight="true"
-            android:text="😄🙈😀😗😍"
+            />
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/ejTextView2"
+            android:layout_alignTop="@id/ivSmile"
+            android:paddingTop="@dimen/spacing_20"
+            android:textSize="@dimen/font_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/spacing_5"
+            android:layout_toLeftOf="@id/ejTextView1"
+            />
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/ejTextView3"
+            android:paddingTop="@dimen/spacing_20"
+            android:layout_alignTop="@id/ivSmile"
+            android:textSize="@dimen/font_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/spacing_5"
+            android:layout_toLeftOf="@id/ejTextView2"
+            />
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/ejTextView4"
+            android:paddingTop="@dimen/spacing_20"
+            android:textSize="@dimen/font_large"
+            android:layout_alignTop="@id/ivSmile"
+            android:layout_width="wrap_content"
+            android:paddingRight="@dimen/spacing_5"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ejTextView3"
             />
         <TextView
-            android:layout_toLeftOf="@id/ejTextView"
+            android:layout_toLeftOf="@id/ejTextView4"
             android:layout_alignTop="@id/ivSmile"
             android:layout_marginRight="@dimen/spacing_10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_20"
             android:text="常用:"
             android:textColor="@color/gray_1"
-            android:textSize="@dimen/font_small"/>
+            android:textSize="@dimen/font_normal"/>
     </RelativeLayout>
 </LinearLayout>

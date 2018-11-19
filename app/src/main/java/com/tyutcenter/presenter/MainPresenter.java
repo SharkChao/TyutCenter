@@ -3,6 +3,7 @@ package com.tyutcenter.presenter;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.base.BasePresenter;
 import com.tyutcenter.model.Comment;
+import com.tyutcenter.model.CommentPraise;
 import com.tyutcenter.model.Floor;
 import com.tyutcenter.model.Message;
 import com.tyutcenter.model.MessageType;
@@ -44,8 +45,9 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
     //获取数据之后回调
     public interface MainUiCallback{
-        void getHotComment(String message_id);
-        void getAllComment(String message_id);
+        void createPraise(CommentPraise commentPraise);
+        void getHotComment(String message_id,String user_id);
+        void getAllComment(String message_id,String user_id);
         void getCommentCount(String message_id);
         void createComment(Comment comment);
         void getExpressPageTitle();
@@ -64,9 +66,29 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     protected MainUiCallback createUiCallbacks(final MainUi ui) {
         return new MainUiCallback() {
             @Override
-            public void getHotComment(String message_id) {
+            public void createPraise(CommentPraise commentPraise) {
                 if (ui instanceof CommentUi){
-                mApiService.getHotComment(message_id)
+                    mApiService.createPraise(commentPraise)
+                            .map(new HttpResultFunc<Result>())
+                            .compose(MainPresenter.this.<Result>applySchedulers())
+                            .subscribe(new RequestCallBack<Result>() {
+                                @Override
+                                public void onResponse(Result response) {
+                                    ((CommentUi) ui).createPraise(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void getHotComment(String message_id,String user_id) {
+                if (ui instanceof CommentUi){
+                mApiService.getHotComment(message_id,user_id)
                          .map(new HttpResultFunc<List<Floor>>())
                         .compose(MainPresenter.this.<List<Floor>>applySchedulers())
                         .subscribe(new RequestCallBack<List<Floor>>() {
@@ -85,9 +107,9 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
             }
 
             @Override
-            public void getAllComment(String message_id) {
+            public void getAllComment(String message_id,String user_id) {
                 if (ui instanceof CommentUi){
-                    mApiService.getAllComment(message_id)
+                    mApiService.getAllComment(message_id,user_id)
                             .map(new HttpResultFunc<List<Floor>>())
                             .compose(MainPresenter.this.<List<Floor>>applySchedulers())
                             .subscribe(new RequestCallBack<List<Floor>>() {
@@ -134,7 +156,11 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
                             .subscribe(new RequestCallBack<Result>() {
                                 @Override
                                 public void onResponse(Result response) {
-                                    ((ExpressDetailUi) ui).createComment(response);
+                                    if (ui instanceof ExpressDetailUi){
+                                        ((ExpressDetailUi)ui).createComment(response);
+                                    }else if (ui instanceof CommentUi){
+                                        ((CommentUi)ui).createComment(response);
+                                    }
                                 }
 
                                 @Override
@@ -366,6 +392,7 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
         void getAllComment(List<Floor>list);
         void getHotComment(List<Floor>list);
         void createComment(Result result);
+        void createPraise(Result result);
     }
 
 }

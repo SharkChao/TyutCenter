@@ -11,4 +11,8 @@
         <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textColor">@color/grey_text_color_normal</item>
     </style>
+    <style name="TopPopAnim" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/anim_comment_top_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_comment_top_out</item>
+    </style>
 </resources>
