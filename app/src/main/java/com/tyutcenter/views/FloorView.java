@@ -99,6 +99,8 @@ public class FloorView extends NestedScrollView{
                 if (position == 2 && !isExpend){
                     isExpend = true;
                     refreshFloor();
+                }else {
+                    showPopupWindow();
                 }
             }
         });
@@ -142,41 +144,44 @@ public class FloorView extends NestedScrollView{
         mLlRoot.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EasyPopup window = EasyPopup.create(mContext)
-                        .setContentView(R.layout.view_comment_popup)
-                        .setAnimationStyle(R.style.TopPopAnim)
-                        .setFocusAndOutsideEnable(true)//是否允许点击PopupWindow之外的地方消失
-                        .apply();
-                TextView tvComment = window.findViewById(R.id.tvComment);
-                TextView tvPraise = window.findViewById(R.id.tvPraise);
-
-                tvComment.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        window.dismiss();
-                        if (mOnCommentClickListener != null && mCurrentComment != null){
-                            mOnCommentClickListener.onComment(mCurrentComment);
-                        }
-                    }
-                });
-                tvPraise.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        window.dismiss();
-                        if (mOnPraiseClickListener != null && mCurrentComment != null){
-                            if (mCurrentComment.getPraise_me_id() == UserData.getUser().getId()){
-                                Toast.makeText(mContext, "请勿重复点赞!", Toast.LENGTH_SHORT).show();
-                            }else {
-                                mOnPraiseClickListener.onPraise(mCurrentComment);
-                                mIvPraise.setImageResource(CommonUtil.isStrEmpty(mCurrentComment.getPraise_me_id())?R.mipmap.praise_normal:R.mipmap.praise_red);
-                                mTvPraise.setTextColor(CommonUtil.isStrEmpty(mCurrentComment.getPraise_me_id())?getResources().getColor(R.color.gray_1):getResources().getColor(R.color.colorPrimary));
-                            }
-                        }
-                    }
-                });
-                window.showAtAnchorView(mLlRoot, YGravity.CENTER, XGravity.CENTER, 0, 0);
+                showPopupWindow();
             }
         });
+    }
+    private void showPopupWindow(){
+        final EasyPopup window = EasyPopup.create(mContext)
+                .setContentView(R.layout.view_comment_popup)
+                .setAnimationStyle(R.style.TopPopAnim)
+                .setFocusAndOutsideEnable(true)//是否允许点击PopupWindow之外的地方消失
+                .apply();
+        TextView tvComment = window.findViewById(R.id.tvComment);
+        TextView tvPraise = window.findViewById(R.id.tvPraise);
+
+        tvComment.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+                if (mOnCommentClickListener != null && mCurrentComment != null){
+                    mOnCommentClickListener.onComment(mCurrentComment);
+                }
+            }
+        });
+        tvPraise.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+                if (mOnPraiseClickListener != null && mCurrentComment != null){
+                    if (mCurrentComment.getPraise_me_id() == UserData.getUser().getId()){
+                        Toast.makeText(mContext, "请勿重复点赞!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        mOnPraiseClickListener.onPraise(mCurrentComment);
+                        mIvPraise.setImageResource(CommonUtil.isStrEmpty(mCurrentComment.getPraise_me_id())?R.mipmap.praise_normal:R.mipmap.praise_red);
+                        mTvPraise.setTextColor(CommonUtil.isStrEmpty(mCurrentComment.getPraise_me_id())?getResources().getColor(R.color.gray_1):getResources().getColor(R.color.colorPrimary));
+                    }
+                }
+            }
+        });
+        window.showAtAnchorView(mLlRoot, YGravity.CENTER, XGravity.CENTER, 0, 0);
     }
     public void initFloor(List<Comment>list){
         if (list != null && list.size() > 0){

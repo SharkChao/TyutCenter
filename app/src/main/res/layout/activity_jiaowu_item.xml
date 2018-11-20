@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:layout_margin="2dp">
+    <ImageView
+        android:scaleType="fitXY"
+        android:id="@+id/iv_guide"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/p6"/>
+    <TextView
+        android:id="@+id/tv_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_guide"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:text="在线诊疗"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_small"/>
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_guide"
+        android:layout_alignParentBottom="true"
+        android:text="千万药品轻松到家"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/font_gray"
+        android:textSize="@dimen/font_smaller"/>
+
+</RelativeLayout>

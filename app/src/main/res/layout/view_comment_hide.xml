@@ -6,7 +6,7 @@
     android:gravity="center"
     android:layout_marginLeft="@dimen/spacing_20"
     android:layout_marginRight="@dimen/spacing_15"
-    android:background="@color/gray_3"
+    android:background="@color/emoji_keyboard_bg_light"
     xmlns:android="http://schemas.android.com/apk/res/android">
      <TextView
          android:id="@+id/tvExpend"

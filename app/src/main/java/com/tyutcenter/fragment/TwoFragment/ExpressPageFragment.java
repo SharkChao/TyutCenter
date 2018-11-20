@@ -160,7 +160,6 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
             }
             mAdapter.setNewData(mMessageList);
             mAdapter.loadMoreComplete();
-            mSwipeRefreshLayout.setRefreshing(false);
         }else {
             if (index == 0){
                 mAdapter.getData().clear();
@@ -168,7 +167,9 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
             }
             mAdapter.loadMoreEnd(true);
         }
-
+        mSwipeRefreshLayout.setRefreshing(false);
+        mEmptyView.setMessage("暂无数据");
+        mEmptyView.setType(EmptyView.TYPE_NO_DATA);
     }
 
     @Override

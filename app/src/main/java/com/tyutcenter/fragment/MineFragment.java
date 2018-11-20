@@ -4,12 +4,16 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
-import com.tyutcenter.databinding.FragmentMineBinding;
+import com.mob.tools.FakeActivity;
 import com.mob.ums.gui.UMSGUI;
+import com.mob.ums.gui.pages.MainPage;
+import com.mob.ums.gui.themes.defaultt.DefaultTheme;
 import com.tyutcenter.R;
 import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseFragment;
+import com.tyutcenter.databinding.FragmentMineBinding;
 import com.tyutcenter.presenter.MainPresenter;
 
 /**
@@ -18,7 +22,7 @@ import com.tyutcenter.presenter.MainPresenter;
 @ContentView(R.layout.fragment_mine)
 public class MineFragment extends BaseFragment<MainPresenter.MainUiCallback> implements MainPresenter.MainUi{
 
-    private Button mClick;
+    private LinearLayout llRoot;
 
     @Override
     protected void initTitle() {
@@ -28,7 +32,7 @@ public class MineFragment extends BaseFragment<MainPresenter.MainUiCallback> imp
     @Override
     protected void initViews(ViewDataBinding viewDataBinding, Bundle savedInstanceState ) {
         FragmentMineBinding binding = (FragmentMineBinding) viewDataBinding;
-        mClick = binding.click;
+        llRoot = binding.llRoot;
     }
 
     @Override
@@ -38,12 +42,7 @@ public class MineFragment extends BaseFragment<MainPresenter.MainUiCallback> imp
 
     @Override
     protected void initEvent() {
-       mClick.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               UMSGUI.showProfilePage();
-           }
-       });
+
     }
 
     @Override

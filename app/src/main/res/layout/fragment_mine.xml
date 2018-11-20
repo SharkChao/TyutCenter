@@ -7,15 +7,9 @@
     android:background="@color/grey_normal_bg"
     android:orientation="vertical"
     android:overScrollMode="never"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:id="@+id/llRoot">
 
-    <Button
-        android:id="@+id/click"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="个人信息"
-        android:textColor="@color/colorPrimary"
-        android:gravity="center"
-       />
+
 </LinearLayout>
 </layout>

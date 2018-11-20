@@ -51,7 +51,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -62,7 +62,6 @@ android {
         exclude 'META-INF/rxjava.properties'
         // ... and any other excludes go here
     }
-
 }
 
 dependencies {
@@ -116,5 +115,5 @@ dependencies {
     //表情库
     implementation 'com.vanniktech:emoji-ios:0.5.1'
     implementation 'com.youth.banner:banner:1.4.10'
-    compile 'com.github.zyyoona7:EasyPopup:1.1.2'
+    implementation 'com.github.zyyoona7:EasyPopup:1.1.2'
 }

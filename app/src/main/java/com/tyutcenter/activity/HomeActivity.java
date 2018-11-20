@@ -10,14 +10,14 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.mob.ums.gui.UMSGUI;
 import com.tyutcenter.R;
 import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.data.UserData;
 import com.tyutcenter.databinding.ActivityHomeBinding;
-import com.tyutcenter.fragment.ConnectFragment;
 import com.tyutcenter.fragment.ExpressFragment;
-import com.tyutcenter.fragment.MineFragment;
+import com.tyutcenter.fragment.JiaoWuFragment;
 import com.tyutcenter.fragment.NewsFragment;
 import com.tyutcenter.model.ResponseError;
 import com.tyutcenter.model.Result;
@@ -34,9 +34,8 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
     private FrameLayout mFrameLayout;
     private NewsFragment mNewsFragment;
     private ExpressFragment mExpressFragment;
-    private ConnectFragment mConnectFragment;
-    private MineFragment mMineFragment;
-
+    private JiaoWuFragment mJiaoWuFragment;
+    private int mPosition;
     @Override
     public void initTitle() {
         setCenterTitle("表白墙");
@@ -57,14 +56,11 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
         if (mNewsFragment == null){
             mNewsFragment = new NewsFragment();
         }
-        if (mConnectFragment == null){
-            mConnectFragment = new ConnectFragment();
+        if (mJiaoWuFragment == null){
+            mJiaoWuFragment = new JiaoWuFragment();
         }
-        if (mMineFragment == null){
-            mMineFragment = new MineFragment();
-        }
-        mFragmentManager.beginTransaction().add(R.id.frameLayout,mExpressFragment).add(R.id.frameLayout, mNewsFragment).add(R.id.frameLayout,mConnectFragment).add(R.id.frameLayout,mMineFragment).commit();
-        mFragmentManager.beginTransaction().show(mExpressFragment).hide(mNewsFragment).hide(mConnectFragment).hide(mMineFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayout,mExpressFragment).add(R.id.frameLayout, mNewsFragment).add(R.id.frameLayout,mJiaoWuFragment).commit();
+        mFragmentManager.beginTransaction().show(mExpressFragment).hide(mNewsFragment).hide(mJiaoWuFragment).commit();
         mBinding.bottomBar
                 .addItem(new BottomNavigationItem(R.mipmap.iv_jiaowu, "表白墙").setActiveColorResource(R.color.colorPrimary))
                 .addItem(new BottomNavigationItem(R.mipmap.iv_news, "新闻").setActiveColorResource(R.color.colorPrimary))
@@ -86,18 +82,20 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
         mBinding.bottomBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
+                mPosition = position;
                 if (position == 0){
                     setCenterTitle("表白墙");
-                    mFragmentManager.beginTransaction().show(mExpressFragment).hide(mNewsFragment).hide(mConnectFragment).hide(mMineFragment).commit();
+                    mFragmentManager.beginTransaction().show(mExpressFragment).hide(mNewsFragment).hide(mJiaoWuFragment).commit();
                 }else if (position == 1){
                     setCenterTitle("新闻");
-                    mFragmentManager.beginTransaction().show(mNewsFragment).hide(mExpressFragment).hide(mConnectFragment).hide(mMineFragment).commit();
+                    mFragmentManager.beginTransaction().show(mNewsFragment).hide(mExpressFragment).hide(mJiaoWuFragment).commit();
                 }else if (position == 2){
                     setCenterTitle("教务处");
-                    mFragmentManager.beginTransaction().show(mConnectFragment).hide(mExpressFragment).hide(mNewsFragment).hide(mMineFragment).commit();
+                    mFragmentManager.beginTransaction().show(mJiaoWuFragment).hide(mExpressFragment).hide(mNewsFragment).commit();
                 }else if (position == 3){
                     setCenterTitle("我的");
-                    mFragmentManager.beginTransaction().show(mMineFragment).hide(mExpressFragment).hide(mNewsFragment).hide(mConnectFragment).commit();
+//                    mFragmentManager.beginTransaction().show(mMineFragment).hide(mExpressFragment).hide(mNewsFragment).hide(mJiaoWuFragment).commit();
+                    UMSGUI.showProfilePage();
                 }
             }
 
@@ -147,4 +145,13 @@ public class HomeActivity extends BaseActivity<MainPresenter.MainUiCallback> imp
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mPosition == 3){
+            mBinding.bottomBar.selectTab(2);
+            setCenterTitle("教务处");
+            mFragmentManager.beginTransaction().show(mJiaoWuFragment).hide(mExpressFragment).hide(mNewsFragment).commit();
+        }
+    }
 }

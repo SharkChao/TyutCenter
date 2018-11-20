@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/spacing_10"
-    android:background="@color/gray_3"
+    android:background="@color/emoji_keyboard_bg_light"
     android:layout_marginLeft="@dimen/spacing_20"
     android:layout_marginRight="@dimen/spacing_15"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -49,8 +49,8 @@
             android:layout_below="@id/tvName"/>
         <ImageView
             android:id="@+id/ivPraise"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:src="@mipmap/praise_normal"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
