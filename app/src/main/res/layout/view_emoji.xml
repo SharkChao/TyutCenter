@@ -7,7 +7,8 @@
     android:background="@color/white"
     android:gravity="center_vertical"
     android:padding="@dimen/spacing_5"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:id="@+id/rlText"
         android:layout_width="match_parent"
@@ -21,25 +22,32 @@
             android:paddingTop="@dimen/spacing_5"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical">
-            <ImageView
+
+            <ezy.ui.view.BadgeButton
+                android:id="@+id/ivComment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/wn_iv_comment"
+                android:layout_height="27dp"
+                android:layout_marginLeft="@dimen/spacing_15"
                 android:layout_weight="1"
-                android:layout_marginLeft="@dimen/spacing_15"/>
+                android:background="@mipmap/wn_iv_comment"
+                app:btnBadgeColor="@color/colorPrimary"
+                app:btnBadgeVisible="true"/>
             <ImageView
+                android:id="@+id/wn_iv_collect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/wn_iv_collect"
                 android:layout_marginLeft="@dimen/spacing_20"
                 android:layout_weight="1"/>
             <ImageView
+                android:id="@+id/ivTransmit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/wn_iv_transmit"
                 android:layout_marginLeft="@dimen/spacing_20"
                 android:layout_weight="1"/>
             <ImageView
+                android:id="@+id/ivMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/wn_iv_more"

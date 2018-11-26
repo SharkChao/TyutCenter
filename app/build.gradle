@@ -116,4 +116,12 @@ dependencies {
     implementation 'com.vanniktech:emoji-ios:0.5.1'
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.github.zyyoona7:EasyPopup:1.1.2'
+    implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
+
+    def work_version = "1.0.0-alpha08"
+    implementation "android.arch.work:work-runtime:$work_version"
+    // optional - Firebase JobDispatcher support
+    implementation "android.arch.work:work-firebase:$work_version"
+
+    implementation 'com.github.czy1121:badgebutton:1.1.0'
 }

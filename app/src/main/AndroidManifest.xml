@@ -43,6 +43,13 @@
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.mob.mobpush.link"
+                    android:scheme="mlink" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.PhotoPreviewActivity"
@@ -62,8 +69,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-        <service android:name=".service.MobPushService">
-        </service>
+        <!--<service android:name=".service.MobPushService">-->
+        <!--</service>-->
 
     </application>
 

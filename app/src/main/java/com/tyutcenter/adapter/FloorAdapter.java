@@ -38,6 +38,7 @@ public class FloorAdapter extends BaseMultiItemQuickAdapter<Comment,BaseViewHold
     protected void convert(final BaseViewHolder helper, final Comment item) {
         switch (helper.getItemViewType()){
             case Comment.TYPE_NORMAL:
+                helper.setText(R.id.tvFloor,helper.getAdapterPosition()+1+"");
                 helper.setText(R.id.tvContent, CommonUtil.isStrEmpty(item.getContent())?"未知":item.getContent());
                 helper.setText(R.id.tvName, CommonUtil.isStrEmpty(item.getNick_name())?"未知":item.getNick_name());
                 helper.setText(R.id.tvLocation,CommonUtil.isStrEmpty(item.getLocation())?"山西省太原市":item.getLocation());

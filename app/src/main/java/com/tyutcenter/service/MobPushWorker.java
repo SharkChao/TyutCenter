@@ -1,12 +1,8 @@
 package com.tyutcenter.service;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import android.support.annotation.NonNull;
 
 import com.mob.pushsdk.MobPush;
 import com.mob.pushsdk.MobPushCustomMessage;
@@ -19,48 +15,49 @@ import com.tyutcenter.utils.CommonUtil;
 
 import java.util.HashMap;
 
-public class MobPushService extends Service{
+import androidx.work.Worker;
+
+/**
+ * @author sharkchao
+ * 邮件指令规则
+ * action#value
+ * value中携带的参数由每个具体action判断(默认规则&)
+ */
+public class MobPushWorker extends Worker {
 
     private MobPushReceiver mReceiver;
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public MobPushWorker() {
     }
 
+    @NonNull
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public Result doWork() {
         initPushService();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        MobPush.removePushReceiver(mReceiver);
+        return Result.SUCCESS;
     }
 
     public void initPushService(){
         MobPush.addTags(new String[]{"android"});
         MobPush.setAlias(UserData.getUser().getId());
+
+        if (mReceiver != null){
+            return;
+        }
         mReceiver = new MobPushReceiver() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onCustomMessageReceive(Context context, MobPushCustomMessage message) {
-//              setMessage(message);
             }
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onNotifyMessageReceive(Context context, MobPushNotifyMessage message) {
                 //接收通知消息
-
             }
 
             @Override
             public void onNotifyMessageOpenedReceive(Context context, MobPushNotifyMessage message) {
                 //接收通知消息被点击事件
-                setMessage(message);
+
+//               setMessage(context,message);
             }
             @Override
             public void onTagsCallback(Context context, String[] tags, int operation, int errorCode) {
@@ -73,8 +70,7 @@ public class MobPushService extends Service{
         };
         MobPush.addPushReceiver(mReceiver);
     }
-
-    private void setMessage(MobPushNotifyMessage message){
+    private void setMessage(Context context,MobPushNotifyMessage message){
         //接收自定义消息
         Message temp = new Message();
         HashMap<String, String> extrasMap = message.getExtrasMap();
@@ -89,9 +85,9 @@ public class MobPushService extends Service{
             temp.setPublish_person(Integer.parseInt(CommonUtil.isStrEmpty(extrasMap.get("publish_person")) ? "0" : extrasMap.get("publish_person")));
             temp.setPublish_person_name(extrasMap.get("publish_person_name"));
 
-            Intent intent = new Intent(this,ExpressDetailActivity.class);
+            Intent intent = new Intent(context,ExpressDetailActivity.class);
             intent.putExtra("message",message);
-            startActivity(intent);
+            context.startActivity(intent);
         }
     }
 }

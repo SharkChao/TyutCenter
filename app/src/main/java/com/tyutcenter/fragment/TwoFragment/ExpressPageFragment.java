@@ -128,12 +128,15 @@ public class ExpressPageFragment extends BaseFragment<MainPresenter.MainUiCallba
         banner.setBannerTitles(titles);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
-        if(mAdapter.getHeaderLayoutCount() != 0){
-            mAdapter.removeAllHeaderView();
-            mAdapter.addHeaderView(view);
-        }else {
-            mAdapter.addHeaderView(view);
+        if (mMessageType.getId() == 1){
+            if(mAdapter.getHeaderLayoutCount() != 0){
+                mAdapter.removeAllHeaderView();
+                mAdapter.addHeaderView(view);
+            }else {
+                mAdapter.addHeaderView(view);
+            }
         }
+
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {

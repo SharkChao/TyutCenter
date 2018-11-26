@@ -68,6 +68,7 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
     public void initData() {
         mMessage_id = getIntent().getStringExtra(TAG_MESSAGE_ID);
         getCommentByServer();
+        getCallbacks().getCommentCount(mMessage_id);
     }
 
     private void getCommentByServer(){
@@ -202,6 +203,12 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
         }
     }
 
+    @Override
+    public void getCommentCount(Result result) {
+        if (result != null){
+            mEmojiView.setCommentMessage(result.getCode());
+        }
+    }
     @Override
     public void onResponseError(ResponseError error) {
         super.onResponseError(error);

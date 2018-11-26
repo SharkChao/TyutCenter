@@ -9,19 +9,17 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.tyutcenter.R;
-import com.tyutcenter.adapter.ExpressDetailAdapter;
 import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.data.UserData;
+import com.tyutcenter.model.Collect;
 import com.tyutcenter.model.Comment;
 import com.tyutcenter.model.Message;
 import com.tyutcenter.model.Result;
@@ -31,9 +29,11 @@ import com.tyutcenter.utils.DensityUtil;
 import com.tyutcenter.views.EmojiView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.Set;
+
+import br.tiagohm.markdownview.MarkdownView;
+import br.tiagohm.markdownview.css.styles.Github;
 
 @ContentView(R.layout.activity_express_detail)
 public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCallback> implements MainPresenter.ExpressDetailUi{
@@ -42,12 +42,10 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
     private TextView mTvName;
     private TextView mTvTime;
     private TextView mTvTitle;
-    private TextView mTvContent;
-    private RecyclerView mRvList;
-    private ExpressDetailAdapter mAdapter;
     private NestedScrollView mScrollView;
     private EmojiView mEmojiView;
     private int mCommentCount;
+    private MarkdownView mMarkdownView;
 
 
     @SuppressLint("NewApi")
@@ -63,42 +61,66 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
                 CommentActivity.startCommentActivity(ExpressDetailActivity.this,mMessage.getId()+"");
             }
         });
-       mMessage = (Message) getIntent().getExtras().getSerializable("msg");
+
     }
+
 
     @Override
     public void initView(ViewDataBinding viewDataBinding) {
         mTvName = findViewById(R.id.tvName);
         mTvTime = findViewById(R.id.tvTime);
-        mTvContent = findViewById(R.id.tvContent);
+        mMarkdownView = findViewById(R.id.markdown_view);
         mTvTitle = findViewById(R.id.tvTitle);
-        mRvList = findViewById(R.id.rvList);
         mScrollView = findViewById(R.id.scrollView);
         mEmojiView = findViewById(R.id.emojiView);
         mTvTime.setFocusableInTouchMode(true);
         mTvTime.requestFocus();
-        mRvList.setLayoutManager(new GridLayoutManager(this,3){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //OnCreate和OnNewIntent方法都要同时处理这个逻辑
+        setIntent(intent);
+       dealPushResponse(intent);
+
+    }
+
+    private void dealPushResponse(Intent intent) {
+        Bundle bundle = null;
+        if (intent != null) {
+            bundle = intent.getExtras();
+            if (bundle != null) {
+                Set<String> keySet = bundle.keySet();
+                for (String key : keySet) {
+                    if (key.equals("data")) {
+                        String json = (String) bundle.get(key);
+                        Gson gson = new Gson();
+                        mMessage = gson.fromJson(json, Message.class);
+                    }
+                }
             }
-        });
-        mAdapter = new ExpressDetailAdapter(R.layout.activity_express_detail_item);
-        //第一次不需要进入加载更多的回调中
-        mRvList.setAdapter(mAdapter);
+        }
     }
 
     @Override
     public void initData() {
-        mTvName.setText(CommonUtil.isStrEmpty(mMessage.getPublish_person_name())?"未知":mMessage.getPublish_person_name());
-        mTvContent.setText(CommonUtil.isStrEmpty(mMessage.getMsg_content())?"未知":mMessage.getMsg_content());
-        mTvTime.setText(CommonUtil.isStrEmpty(mMessage.getMsg_date())?"未知":mMessage.getMsg_date());
-        mTvTitle.setText(CommonUtil.isStrEmpty(mMessage.getMsg_title())?"未知":mMessage.getMsg_title());
 
-        if (CommonUtil.isStrEmpty(mMessage.getMsg_content())){
-            mTvContent.setVisibility(View.GONE);
+        mMessage = (Message) getIntent().getExtras().getSerializable("msg");
+        if (mMessage == null){
+           dealPushResponse(getIntent());
         }
-        mAdapter.setNewData(Arrays.asList(mMessage.getImages()));
+
+        if (mMessage != null){
+            mTvName.setText(CommonUtil.isStrEmpty(mMessage.getPublish_person_name())?"未知":mMessage.getPublish_person_name());
+            mMarkdownView.addStyleSheet(new Github());
+            mMarkdownView.loadMarkdown(CommonUtil.isStrEmpty(mMessage.getMsg_content())?"未知":mMessage.getMsg_content());
+            mTvTime.setText(CommonUtil.isStrEmpty(mMessage.getMsg_date())?"未知":mMessage.getMsg_date());
+            mTvTitle.setText(CommonUtil.isStrEmpty(mMessage.getMsg_title())?"未知":mMessage.getMsg_title());
+        }
+
+        getCallbacks().getCollectByUserId(UserData.getUser().getId(),mMessage.getId()+"");
+
     }
 
     @Override
@@ -129,14 +151,6 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
             }
         });
 
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-               if (!mEmojiView.isShow()){
-                   PhotoPreviewActivity.startPhotoPreview(ExpressDetailActivity.this, new ArrayList<String>( Arrays.asList(mMessage.getImages())),position);
-               }
-            }
-        });
 
 
         mEmojiView.registerSendListener(new EmojiView.onSendClickListenr() {
@@ -149,6 +163,20 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
                 comment.setDate(sf.format(new Date()));
                 comment.setUser_id(UserData.getUser().getId());
                 getCallbacks().createComment(comment);
+            }
+        });
+
+        mEmojiView.setCollectClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCallbacks().setCollectByUserId(UserData.getUser().getId(),mMessage.getId()+"",mEmojiView.getCollect() == 0?1:0);
+            }
+        });
+
+        mEmojiView.setCommentClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommentActivity.startCommentActivity(ExpressDetailActivity.this,mMessage.getId()+"");
             }
         });
 
@@ -244,6 +272,24 @@ public class ExpressDetailActivity extends BaseActivity<MainPresenter.MainUiCall
         if (result != null){
             mCommentCount = result.getCode();
             setRightTitle(result.getCode()+"跟帖");
+            mEmojiView.setCommentMessage(result.getCode());
+        }
+    }
+
+    @Override
+    public void getCollectByUserId(Collect collect) {
+       if (collect != null){
+           mEmojiView.setCollect(collect.getCollect());
+       }else {
+           mEmojiView.setCollect(0);
+       }
+    }
+
+    @Override
+    public void setCollectByUserId(Result result) {
+        if (result.getCode() > 0){
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            getCallbacks().getCollectByUserId(UserData.getUser().getId(),mMessage.getId()+"");
         }
     }
 }

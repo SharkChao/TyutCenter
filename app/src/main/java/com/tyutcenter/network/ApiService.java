@@ -1,6 +1,7 @@
 package com.tyutcenter.network;
 
 
+import com.tyutcenter.model.Collect;
 import com.tyutcenter.model.Comment;
 import com.tyutcenter.model.CommentPraise;
 import com.tyutcenter.model.Floor;
@@ -70,5 +71,10 @@ public interface ApiService {
     Observable<HttpResult<List<Floor>>>getHotComment(@Query("message_id")String message_id,@Query("user_id")String user_id);
     @POST("comment/createPraise")
     Observable<HttpResult<Result>>createPraise(@Body CommentPraise commentPraise);
+    @GET("message/getCollectByUserId")
+    Observable<HttpResult<Collect>>getCollectByUserId(@Query("user_id")String user_id, @Query("message_id")String message_id);
+    @GET("message/setCollectByUserId")
+    Observable<HttpResult<Result>>setCollectByUserId(@Query("user_id")String user_id,@Query("message_id")String message_id,@Query("collect")int collect);
+
 
 }

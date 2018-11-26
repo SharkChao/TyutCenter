@@ -1,7 +1,9 @@
 package com.tyutcenter.presenter;
 
+import com.tyutcenter.activity.ExpressDetailActivity;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.base.BasePresenter;
+import com.tyutcenter.model.Collect;
 import com.tyutcenter.model.Comment;
 import com.tyutcenter.model.CommentPraise;
 import com.tyutcenter.model.Floor;
@@ -45,6 +47,8 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
     //获取数据之后回调
     public interface MainUiCallback{
+        void getCollectByUserId(String user_id,String message_id);
+        void setCollectByUserId(String user_id,String message_id,int collect);
         void createPraise(CommentPraise commentPraise);
         void getHotComment(String message_id,String user_id);
         void getAllComment(String message_id,String user_id);
@@ -65,6 +69,46 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     @Override
     protected MainUiCallback createUiCallbacks(final MainUi ui) {
         return new MainUiCallback() {
+            @Override
+            public void getCollectByUserId(String user_id, String message_id) {
+                if (ui instanceof ExpressDetailActivity){
+                    mApiService.getCollectByUserId(user_id,message_id)
+                            .map(new HttpResultFunc<Collect>())
+                            .compose(MainPresenter.this.<Collect>applySchedulers())
+                            .subscribe(new RequestCallBack<Collect>() {
+                                @Override
+                                public void onResponse(Collect response) {
+                                    ((ExpressDetailActivity) ui).getCollectByUserId(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void setCollectByUserId(String user_id, String message_id, int collect) {
+                if (ui instanceof ExpressDetailActivity){
+                    mApiService.setCollectByUserId(user_id,message_id,collect)
+                            .map(new HttpResultFunc<Result>())
+                            .compose(MainPresenter.this.<Result>applySchedulers())
+                            .subscribe(new RequestCallBack<Result>() {
+                                @Override
+                                public void onResponse(Result response) {
+                                    ((ExpressDetailActivity) ui).setCollectByUserId(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
             @Override
             public void createPraise(CommentPraise commentPraise) {
                 if (ui instanceof CommentUi){
@@ -129,14 +173,18 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
 
             @Override
             public void getCommentCount(String message_id) {
-                if (ui instanceof ExpressDetailUi){
+                if (ui instanceof ExpressDetailUi || ui instanceof CommentUi){
                     mApiService.getCommentCount(message_id)
                             .map(new HttpResultFunc<Result>())
                             .compose(MainPresenter.this.<Result>applySchedulers())
                             .subscribe(new RequestCallBack<Result>() {
                                 @Override
                                 public void onResponse(Result response) {
-                                    ((ExpressDetailUi) ui).getCommentCount(response);
+                                    if (ui instanceof ExpressDetailUi){
+                                        ((ExpressDetailUi) ui).getCommentCount(response);
+                                    }else if (ui instanceof CommentUi){
+                                        ((CommentUi) ui).getCommentCount(response);
+                                    }
                                 }
 
                                 @Override
@@ -387,12 +435,15 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     public interface ExpressDetailUi extends MainUi{
         void createComment(Result result);
         void getCommentCount(Result result);
+        void getCollectByUserId(Collect collect);
+        void setCollectByUserId(Result result);
     }
     public interface CommentUi extends MainUi{
         void getAllComment(List<Floor>list);
         void getHotComment(List<Floor>list);
         void createComment(Result result);
         void createPraise(Result result);
+        void getCommentCount(Result result);
     }
 
 }

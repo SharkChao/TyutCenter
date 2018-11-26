@@ -10,11 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tyutcenter.R;
 import com.vanniktech.emoji.EmojiEditText;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.EmojiTextView;
+
+import ezy.ui.view.BadgeButton;
 
 /**
  * 2018/11/17
@@ -37,6 +40,12 @@ public class EmojiView extends LinearLayout implements View.OnClickListener {
     private RelativeLayout rlText;
     private RelativeLayout rlEdit;
     private onSendClickListenr mSendListener;
+    private BadgeButton mIvComment;
+    private ImageView mIvCollect;
+    private ImageView mIvtransmit;
+    private ImageView mIvMore;
+    private int mCollect;
+
     public EmojiView(Context context) {
         super(context);
         init(context);
@@ -53,6 +62,10 @@ public class EmojiView extends LinearLayout implements View.OnClickListener {
     }
     private void init(Context context){
         LayoutInflater.from(context).inflate(R.layout.view_emoji,this);
+        mIvComment = findViewById(R.id.ivComment);
+        mIvCollect = findViewById(R.id.wn_iv_collect);
+        mIvtransmit = findViewById(R.id.ivTransmit);
+        mIvMore = findViewById(R.id.ivMore);
         mTvSmile = findViewById(R.id.tvSmile);
         mtvSend = findViewById(R.id.tvSend);
         mIvSmile = findViewById(R.id.ivSmile);
@@ -113,7 +126,24 @@ public class EmojiView extends LinearLayout implements View.OnClickListener {
         mEmojiTextView2.setOnClickListener(this);
         mEmojiTextView3.setOnClickListener(this);
         mEmojiTextView4.setOnClickListener(this);
+        mIvComment.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        mIvtransmit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "转发功能正在开发中...", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mIvMore.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "更多功能正在开发中...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -172,5 +202,28 @@ public class EmojiView extends LinearLayout implements View.OnClickListener {
     }
     public void setHintText(String text){
         mEmojiEditText.setHint(text);
+    }
+
+    public void setCollect(int collect){
+        mCollect = collect;
+        mIvCollect.setImageDrawable(collect == 1 ? getResources().getDrawable(R.mipmap.wn_iv_collect_red) : getResources().getDrawable(R.mipmap.wn_iv_collect));
+    }
+
+    public int getCollect() {
+        return mCollect;
+    }
+    public void setCommentMessage(int count){
+        mIvComment.setBadgeText(count+"");
+    }
+
+    public void setCommentClickListener(OnClickListener onClickListener){
+        if (onClickListener != null){
+            mIvComment.setOnClickListener(onClickListener);
+        }
+    }
+    public void setCollectClickListener(OnClickListener onClickListener){
+        if (onClickListener != null){
+            mIvCollect.setOnClickListener(onClickListener);
+        }
     }
 }

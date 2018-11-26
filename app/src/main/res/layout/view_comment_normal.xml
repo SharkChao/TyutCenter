@@ -7,14 +7,24 @@
     android:layout_marginLeft="@dimen/spacing_20"
     android:layout_marginRight="@dimen/spacing_15"
     xmlns:android="http://schemas.android.com/apk/res/android">
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="火星网友"
-            android:layout_marginLeft="@dimen/spacing_10"
-            android:textSize="@dimen/font_small"
-            android:textColor="@color/colorBlue2"/>
+
+    <TextView
+        android:id="@+id/tvFloor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:layout_marginLeft="@dimen/spacing_10"
+        android:textSize="@dimen/font_smaller"
+        android:textColor="@color/font_gray"/>
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="火星网友"
+        android:layout_toRightOf="@id/tvFloor"
+        android:layout_marginLeft="@dimen/spacing_10"
+        android:textSize="@dimen/font_small"
+        android:textColor="@color/colorBlue2"/>
         <TextView
             android:id="@+id/tvLocation"
             android:layout_width="wrap_content"

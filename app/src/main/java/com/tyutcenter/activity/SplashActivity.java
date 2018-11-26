@@ -1,7 +1,10 @@
 package com.tyutcenter.activity;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.mob.ums.OperationCallback;
@@ -13,10 +16,17 @@ import com.tyutcenter.annotation.ContentView;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.data.UserData;
 import com.tyutcenter.presenter.MainPresenter;
+import com.tyutcenter.service.MobPushWorker;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkStatus;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -86,7 +96,34 @@ public class SplashActivity extends BaseActivity<MainPresenter.MainUiCallback> i
 
     @Override
     protected void initEvent() {
+        startMailWorker();
+    }
 
+    private void startMailWorker(){
+        // 获取到LiveData然后监听数据变化
+        WorkManager.getInstance().getStatusesByTag("mobpush").observe((LifecycleOwner) this,new Observer<List<WorkStatus>>() {
+            @Override
+            public void onChanged(@Nullable List<WorkStatus> workStatuses) {
+                if (workStatuses == null || workStatuses.size() == 0){
+                    initMailWorker();
+                }
+            }
+        });
+    }
+    private void initMailWorker(){
+        Constraints jobConstraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                .setRequiresCharging(false)
+                .build();
+
+        PeriodicWorkRequest jobWorkManager =
+                new PeriodicWorkRequest.Builder(MobPushWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                        TimeUnit.MILLISECONDS)
+                        .setConstraints(jobConstraints)
+                        .addTag("mobpush")
+                        .build();
+
+        WorkManager.getInstance().enqueue(jobWorkManager);
     }
 
     public void initUser(User user){
