@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/ver_bg">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="@mipmap/logo" />
+
+    <LinearLayout
+        android:id="@+id/loginPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_logo"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="15dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical">
+
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/qq_edit_login"
+                android:ems="10"
+                android:hint="请输入您的教务处账号"
+                android:maxLines="1"
+                android:singleLine="true">
+
+                <requestFocus />
+            </EditText>
+        </ScrollView>
+
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="15dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical">
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/qq_edit_login"
+                android:ems="10"
+                android:hint="请输入您的教务处密码"
+                android:maxLines="1"
+                android:password="true"
+                android:singleLine="true" />
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ScrollView
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <EditText
+                    android:id="@+id/etYan"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/qq_edit_login"
+                    android:hint="验证码"
+                    android:singleLine="true" />
+            </ScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/linYan">
+
+                <ImageView
+                    android:id="@+id/ivYan"
+                    android:layout_width="90dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="17dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/yanzheng" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="50dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:text="登陆" />
+    </LinearLayout>
+
+</RelativeLayout>

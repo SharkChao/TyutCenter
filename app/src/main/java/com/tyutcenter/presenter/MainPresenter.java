@@ -3,6 +3,7 @@ package com.tyutcenter.presenter;
 import com.tyutcenter.activity.ExpressDetailActivity;
 import com.tyutcenter.base.BaseActivity;
 import com.tyutcenter.base.BasePresenter;
+import com.tyutcenter.model.AppVersion;
 import com.tyutcenter.model.Collect;
 import com.tyutcenter.model.Comment;
 import com.tyutcenter.model.CommentPraise;
@@ -26,6 +27,8 @@ import com.tyutcenter.network.map.HttpResultFuncNewsCountTZGG;
 import com.tyutcenter.network.map.HttpResultFuncNewsTZGG;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by Admin on 2018/4/2.
@@ -64,6 +67,9 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
         void  getNewsCountTZGG(String url);
         void getLoginAndroid(User user);
         void test(Test test);
+        void getImage(String url);
+        void login(String url,String name,String password,String yzm);
+        void getAppVersion();
     }
 
     @Override
@@ -409,6 +415,65 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
                                }
                            });
             }
+
+            @Override
+            public void getImage(String url) {
+                if (ui instanceof JiaoWuUi){
+                    mApiService.getImage(url)
+                            .compose(MainPresenter.this.<ResponseBody>applySchedulers())
+                            .subscribe(new RequestCallBack<ResponseBody>() {
+                                @Override
+                                public void onResponse(ResponseBody response) {
+                                    ((JiaoWuUi) ui).getImage(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void login(String url,String name, String password, String yzm) {
+                if (ui instanceof JiaoWuUi){
+                    mApiService.Login(url,name,password,yzm)
+                            .compose(MainPresenter.this.<ResponseBody>applySchedulers())
+                            .subscribe(new RequestCallBack<ResponseBody>() {
+                                @Override
+                                public void onResponse(ResponseBody response) {
+                                    ((JiaoWuUi) ui).Login(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void getAppVersion() {
+                if (ui instanceof MainHomeUi) {
+                    mApiService.getAppVersion()
+                            .map(new HttpResultFunc<AppVersion>())
+                            .compose(MainPresenter.this.<AppVersion>applySchedulers())
+                            .subscribe(new RequestCallBack<AppVersion>() {
+
+                                @Override
+                                public void onResponse(AppVersion response) {
+                                    ((MainHomeUi) ui).getAppVersion(response);
+                                }
+
+                                @Override
+                                public void onFailure(ResponseError error) {
+                                    ui.onResponseError(error);
+                                }
+                            });
+                }
+            }
         };
     }
 
@@ -416,8 +481,13 @@ public class MainPresenter extends BasePresenter<MainPresenter.MainUi,MainPresen
     public interface MainUi extends BasePresenter.BaseUi<MainUiCallback>{
 
     }
+    public interface  JiaoWuUi extends MainUi{
+        void getImage(ResponseBody responseBody);
+        void Login(ResponseBody responseBody);
+    }
     public interface MainHomeUi extends MainUi{
         void getLoginResult(Result result);
+        void getAppVersion(AppVersion appVersion);
     }
     public interface  NewsUi extends MainUi{
         void getNewsCallback(List<News>newsList,boolean string);

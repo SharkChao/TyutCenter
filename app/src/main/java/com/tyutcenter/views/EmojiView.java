@@ -214,6 +214,7 @@ public class EmojiView extends LinearLayout implements View.OnClickListener {
     }
     public void setCommentMessage(int count){
         mIvComment.setBadgeText(count+"");
+        mIvComment.requestLayout();
     }
 
     public void setCommentClickListener(OnClickListener onClickListener){
@@ -225,5 +226,14 @@ public class EmojiView extends LinearLayout implements View.OnClickListener {
         if (onClickListener != null){
             mIvCollect.setOnClickListener(onClickListener);
         }
+    }
+    public void setTransmitVisible(boolean visible){
+        mIvtransmit.setVisibility(visible ? VISIBLE : GONE);
+    }
+    public void setCollectVisible(boolean visible){
+        mIvCollect.setVisibility(visible ? VISIBLE : GONE);
+    }
+    public void setMoreVisible(boolean visible){
+        mIvMore.setVisibility(visible ? VISIBLE : GONE);
     }
 }

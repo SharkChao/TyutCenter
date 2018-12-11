@@ -72,6 +72,7 @@ public abstract class BaseFragment<UC> extends Fragment implements BasePresenter
         isCanLoadData();
     }
 
+
     /**
      * 视图是否已经对用户可见，系统的方法
      */

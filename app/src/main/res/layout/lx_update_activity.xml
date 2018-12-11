@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="300dip"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:padding="10dip">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/text_check_version_rect_top"
+        android:gravity="center"
+        android:text="软件更新"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/font_large"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:text="更新内容:"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/font_smaller"/>
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="220dip"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/tvUpdateContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="5dip"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_smaller"/>
+            </ScrollView>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dip"
+            android:background="@color/font_gray2"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="5dip"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/btn_color_accent_select"
+                    android:text="马上更新"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="10dip"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnClose"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/btn_color_accent_select"
+                    android:text="暂不更新"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

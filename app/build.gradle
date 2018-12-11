@@ -12,6 +12,7 @@ MobSDK {
     SMSSDK {}
     ShareSDK {}
     MobPush {}
+    MobIM {}
     // UMSSDK依赖于ShareSDK和SMSSDK，故还需要引入这两个SDK
     ShareSDK {
         devInfo {
@@ -103,8 +104,7 @@ dependencies {
     //html解析工具
     implementation 'org.jsoup:jsoup:1.11.2'
 
-    //RecyclerView封装库
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+
     //fresco
     implementation 'com.facebook.fresco:fresco:1.10.0'
     //cardview
@@ -124,4 +124,8 @@ dependencies {
     implementation "android.arch.work:work-firebase:$work_version"
 
     implementation 'com.github.czy1121:badgebutton:1.1.0'
+
+    //rxjava的配置
+    implementation 'io.reactivex:rxjava:1.2.4'
+    implementation 'io.reactivex:rxandroid:1.2.1'
 }

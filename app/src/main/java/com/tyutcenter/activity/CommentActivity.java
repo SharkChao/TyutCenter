@@ -62,6 +62,9 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
         mEmptyViewHot = new EmptyView(this);
         mEmptyViewAll.setType(EmptyView.TYPE_LOADING);
         mEmptyViewHot.setType(EmptyView.TYPE_LOADING);
+        mEmojiView.setCollectVisible(false);
+        mEmojiView.setTransmitVisible(false);
+        mEmojiView.setMoreVisible(false);
     }
 
     @Override
@@ -76,6 +79,7 @@ public class CommentActivity extends BaseActivity<MainPresenter.MainUiCallback> 
         if (user != null){
             getCallbacks().getAllComment(mMessage_id,user.getId());
             getCallbacks().getHotComment(mMessage_id,user.getId());
+            getCallbacks().getCommentCount(mMessage_id+"");
         }
     }
 

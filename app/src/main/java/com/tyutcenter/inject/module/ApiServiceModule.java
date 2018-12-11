@@ -39,6 +39,8 @@ public class ApiServiceModule {
         OkHttpClient httpClientBuilder = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .addNetworkInterceptor(new StethoInterceptor())  //添加拦截器
+                //缓存cookie
+//                .cookieJar(new CookieManager(MyLeanCloudApp.getInstance()))
 //                .sslSocketFactory(SSLSocketFactoryUtils.createSSLSocketFactory(), SSLSocketFactoryUtils.createTrustAllManager())
 //                .hostnameVerifier(new SSLSocketFactoryUtils.TrustAllHostnameVerifier())
                 .readTimeout(READ_TIMEOUT,TimeUnit.SECONDS)

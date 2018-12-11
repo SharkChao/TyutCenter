@@ -31,6 +31,7 @@
                 android:layout_weight="1"
                 android:background="@mipmap/wn_iv_comment"
                 app:btnBadgeColor="@color/colorPrimary"
+                app:btnBadgeText="0"
                 app:btnBadgeVisible="true"/>
             <ImageView
                 android:id="@+id/wn_iv_collect"

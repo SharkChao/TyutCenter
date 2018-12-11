@@ -14,7 +14,7 @@
     <application
         android:name=".base.MyLeanCloudApp"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/iv_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
@@ -65,6 +65,12 @@
         </activity>
         <activity
             android:name=".activity.CommentActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.two.JIaoWuFakeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">

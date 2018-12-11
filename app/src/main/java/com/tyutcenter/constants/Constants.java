@@ -13,8 +13,17 @@ public class Constants {
         public static final int HTTP_UNKNOWN_ERROR = 800;
     }
     public static final String base_url = "http://www2017.tyut.edu.cn";
-//    public static final String BASE_SERVER_URL =  "http://106.12.84.31:9090";
-    public static final String BASE_SERVER_URL =  "http://172.16.30.125:9090";
+    public static final String BASE_SERVER_URL =  "http://106.12.84.31:9090";
+
+    //登录界面
+    public static final String LoginUrl="http://202.207.247.49/";
+    //主界面
+    public static final String MainUrl="loginAction.do";
+    //验证码
+    public static final String YZMurl="validateCodeAction.do?random=0.6567266716156155";
+    //验证登录界面
+    public static final String YZurl="xkAction.do?actionType=6";
+//    public static final String BASE_SERVER_URL =  "http://172.16.30.125:9090";
 //    public static final String BASE_SERVER_URL =  "http://192.168.100.122:9090";
 //    public static final String BASE_SERVER_URL =  "http://192.168.100.114:9090";
 //    public static final String BASE_SERVER_URL =  " http://666666.xicp.io:92";
